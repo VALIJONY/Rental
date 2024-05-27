@@ -1,0 +1,133 @@
+
+{%extends 'home.html'%}
+{%block content%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+  <style>
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: auto;
+}
+
+form p {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"], form input[type="radio"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form input[type="radio"] {
+    width: auto;
+}
+
+form div#id_jinsi {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+.edit-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            fill: #000; /* Ikonning rangi */
+            transition: fill 0.3s ease;
+        }
+        .edit-icon:hover {
+            fill: #007BFF; /* Hoverda ikonning rangi */
+        }
+  </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>Ism</td>
+                <td>Familiya</td>
+                <td>Username</td>
+                <td>Telefon Raqam</td>
+                <td>Jinsi</td>
+                <td>Passport</td>
+                <td>JSHSHIR</td>
+                <td>EDIT</td>
+            </tr>
+        </thead>
+        <tbody>
+            {%for i in mijoz%}
+            <tr>
+                <td>{{i.ism}}</td>
+                <td>{{i.familiya}}</td>
+                <td>{{i.username}}</td>
+                <td>{{i.telefon}}</td>
+                <td>{{i.jinsi}}</td>
+                <td>{{i.pasport}}</td>
+                <td>{{i.jshshir}}</td>
+                <td><a href="{% url 'edit_mijoz' i.pk %}"><svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M12 20h9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16.5 3.5l4 4-12 12H4.5V13.5l12-12z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg></a></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+
+    <p>{{message}}</p>
+    <form method="post">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button type="submit">Save</button>
+    </form>
+
+
+{%endblock content%}    
+</body>
+</html>
