@@ -49,12 +49,34 @@ class QurilmaForm(forms.ModelForm):
         
 class ProkotForm(forms.ModelForm):
     class Meta:
-        model=Prokat
-        fields=['mijoz','qurilma','ishchi','berilgan_sanasi','qaytish_sanasi','kunlar_soni','umumiy_narx','montaj','xizmat_narxi','avans','miqdori','kunlik_narxi']
+        model = Prokat
+        fields = ['mijoz', 'qurilma', 'ishchi', 'berilgan_sanasi', 'qaytish_sanasi', 'kunlar_soni', 'umumiy_narx', 'montaj', 'xizmat_narxi', 'avans', 'miqdori', 'kunlik_narxi']
+        labels = {
+            'mijoz': 'Клиент',
+            'qurilma': 'Устройство',
+            'ishchi': 'Работник',
+            'berilgan_sanasi': 'Дата выдачи',
+            'qaytish_sanasi': 'Дата возврата',
+            'kunlar_soni': 'Количество дней',
+            'umumiy_narx': 'Общая цена',
+            'montaj': 'Монтаж',
+            'xizmat_narxi': 'Цена услуги',
+            'avans': 'Аванс',
+            'miqdori': 'Сумма',
+            'kunlik_narxi': 'Ежедневная цена',
+        }
+
 class QaytarishForm(forms.ModelForm):
     class Meta:
-        model=Qaytarish
-        fields=['qaytarilgan_sana','miqdori','nosozlik','summa','prokat']
+        model = Qaytarish
+        fields = ['qaytarilgan_sana', 'miqdori', 'nosozlik', 'summa', 'prokat']
+        labels = {
+            'qaytarilgan_sana': 'Дата возврата',
+            'miqdori': 'Сумма',
+            'nosozlik': 'Дефект',
+            'summa': 'Цена',
+            'prokat': 'Прокат',
+        }
         
         
 
@@ -66,11 +88,11 @@ class IshchiForm(forms.ModelForm):
         labels = {
             'ism': 'Имя',
             'familiya': 'Фамилия',
-            'lavozimi':'позиция',
+            'lavozimi':'Позиция',
             'username': 'Имя пользователя',
             'password':'Пароль',
-            'is_staff': 'персонал',
-            'is_active': 'активный ',
+            'is_staff': 'Персонал',
+            'is_active': 'Активный ',
 
         }
 
@@ -80,5 +102,5 @@ class TamirlashForm(forms.ModelForm):
         fields = ['qurilma','user']
         labels = {
             'qurilma':'Оборудования',
-            'user':'мастер'
+            'user':'Мастер'
         }

@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Yangi Ishchi Qo'shish</title>
-    <style>/* style.css */
+    <title>Админ</title>
+    <style>
 
 body {
     font-family: Arial, sans-serif;
@@ -65,12 +65,12 @@ a:hover {
 </style>
 </head>
 <body>
-    <h1>Yangi Ishchi Qo'shish</h1>
+    <h1>Добавить нового сотрудника</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Saqlash</button>
+        <button type="submit">Сохранять</button>
     </form>
-    <a href="{% url 'ishchilar' %}">Orqaga</a>
+    <a href="{% url 'ishchilar' %}">Назад</a>
 </body>
 </html>

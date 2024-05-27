@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ishchi Tahrirlash</title>
+    <title>Админ</title>
     <style>
-        /* CSS kodlaringizni bu yerdan o'zgartiring */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -73,13 +72,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Ishchini Tahrirlash</h1>
+        <h1>Редактировать работника</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Saqlash</button>
+            <button type="submit">Сохранять</button>
         </form>
-        <a href="{% url 'ishchilar' %}">Orqaga</a>
+        <a href="{% url 'ishchilar' %}">Назад</a>
     </div>
 </body>
 </html>

@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мijozni Tahrirlash</title>
+    <title>Админ</title>
     <style>
-        /* CSS kodlarini shu yerga joylashtiring */
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -58,11 +57,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Мijozni Tahrirlash</h1>
+        <h1>Редактировать клиента</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Save</button>
+            <button type="submit">Сохранять</button>
         </form>
     </div>
 </body>
