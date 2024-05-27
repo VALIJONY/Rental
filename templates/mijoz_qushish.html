@@ -91,14 +91,14 @@ form button:hover {
     <table>
         <thead>
             <tr>
-                <td>Ism</td>
-                <td>Familiya</td>
-                <td>Username</td>
-                <td>Telefon Raqam</td>
-                <td>Jinsi</td>
-                <td>Passport</td>
-                <td>JSHSHIR</td>
-                <td>EDIT</td>
+                <td>Имя</td>
+                <td>Фамилия</td>
+                <td>Имя пользователя</td>
+                <td>Номер телефона</td>
+                <td>Пол</td>
+                <td>Пасспорт</td>
+                <td>ЖШШИР</td>
+                <td>РЕДАКТИРОВАТЬ</td>
             </tr>
         </thead>
         <tbody>
@@ -124,7 +124,7 @@ form button:hover {
     <form method="post">
         {%csrf_token%}
         {{form.as_p}}
-        <button type="submit">Save</button>
+        <button type="submit">Сохранять</button>
     </form>
 
 

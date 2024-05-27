@@ -96,27 +96,27 @@ form input, form select, form textarea {
 </head>
 <body>
     <div class="container">
-        <h1>Qaytarish Formasi</h1>
+        <h1>Форма возврата</h1>
         {% if message %}
             <div class="message">{{ message }}</div>
         {% endif %}
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn">SAVE</button>
+            <button type="submit" class="btn">СОХРАНЯТЬ</button>
         </form>
-        <h2>Malumotlar</h2>
+        <h2>Информация</h2>
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Qaytarilgan san</th>
-                    <th>Miqdor</th>
-                    <th>Nosozlik</th>
-                    <th>Summa</th>
-                    <th>Prokat</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>IД</th>
+                    <th>Дата возврата</th>
+                    <th>Количество</th>
+                    <th>Вина</th>
+                    <th>Сумма</th>
+                    <th>Аренда</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
                 </tr>
             </thead>
             <tbody>

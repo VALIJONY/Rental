@@ -160,13 +160,13 @@
 <body>
     
 
-<div class="button-container"><a href="{% url 'qurilma_qush' %}">Yangi qurilma qo`shish</a></div>
+<div class="button-container"><a href="{% url 'qurilma_qush' %}">Добавить новое устройство</a></div>
 {% if request.path == "/qurilma/qush/" %}
 <div class="form-container">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">SAVE</button>
+        <button type="submit">СОХРАНЯТЬ</button>
     </form>
     <p>{{ message }}</p>
 </div>
@@ -178,9 +178,9 @@
         <img src="{{ qurilma.rasmi.url }}" alt="{{ qurilma.nomi }}">
         <div class="card-content">
             <div class="card-title">{{ qurilma.nomi }}</div>
-            <div class="card-text">Turi: {{ qurilma.tur }}</div>
-            <div class="card-text">Tasnifi: {{ qurilma.tasnif }}</div>
-            <div class="card-status">Holati: {{ qurilma.holati }}</div>
+            <div class="card-text">Тип: {{ qurilma.tur }}</div>
+            <div class="card-text">Классификация: {{ qurilma.tasnif }}</div>
+            <div class="card-status">Положение дел: {{ qurilma.holati }}</div>
             <div>
                 <a href="{%url 'qurilma_edit' qurilma.pk%}"><svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
                         height="24">

@@ -66,13 +66,13 @@ button {
 </head>
 <body>
     <div class="container">
-        <h1>Qaytarishni Tahrirlash</h1>
+        <h1>Редактировать возврат</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Saqlash</button>
+            <button type="submit" class="btn btn-primary">Сохранять</button>
         </form>
-        <a href="{% url 'qaytarish' %}" class="btn btn-secondary">Ortga</a>
+        <a href="{% url 'qaytarish' %}" class="btn btn-secondary">Назад</a>
     </div>
 
 {%endblock content%}
