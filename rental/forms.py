@@ -50,7 +50,7 @@ class QurilmaForm(forms.ModelForm):
 class ProkotForm(forms.ModelForm):
     class Meta:
         model = Prokat
-        fields = ['mijoz', 'qurilma','miqdori', 'ishchi', 'berilgan_sanasi', 'qaytish_sanasi', 'kunlar_soni', 'umumiy_narx', 'montaj', 'xizmat_narxi', 'avans',  'kunlik_narxi']
+        fields = ['mijoz', 'qurilma','miqdori', 'ishchi', 'berilgan_sanasi', 'qaytish_sanasi', 'kunlar_soni',  'montaj', 'xizmat_narxi', 'avans',  'kunlik_narxi','umumiy_narx']
         labels = {
             'mijoz': 'Клиент',
             'qurilma': 'Устройство',
@@ -62,7 +62,7 @@ class ProkotForm(forms.ModelForm):
             'montaj': 'Монтаж',
             'xizmat_narxi': 'Цена услуги',
             'avans': 'Залок',
-            'miqdori': 'Сумма',
+            'miqdori': 'Количество',
             'kunlik_narxi': 'Ежедневная цена',
         }
 
@@ -72,7 +72,7 @@ class QaytarishForm(forms.ModelForm):
         fields = ['qaytarilgan_sana', 'miqdori', 'nosozlik', 'summa', 'prokat']
         labels = {
             'qaytarilgan_sana': 'Дата возврата',
-            'miqdori': 'Сумма',
+            'miqdori': 'Количество',
             'nosozlik': 'Дефект',
             'summa': 'Цена',
             'prokat': 'Прокат',

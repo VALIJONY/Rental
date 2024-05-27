@@ -5,6 +5,8 @@ from django.contrib.auth import login,logout
 from django.urls import reverse_lazy
 from django.views.generic import View,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.hashers import make_password
+
 from docx import Document
 
 from django.contrib.auth.views import LoginView, LogoutView
@@ -120,18 +122,19 @@ class ShartnomaDownloadView(View):
 
         document.add_heading('Shartnoma', 0)
 
-        document.add_paragraph(f'Mijoz: {shartnoma.mijoz.ism}')
-        document.add_paragraph(f'Qurilma: {shartnoma.qurilma.nomi}')
-        document.add_paragraph(f'Ishchi: {shartnoma.ishchi.ism}')
-        document.add_paragraph(f'Berilgan sana: {shartnoma.berilgan_sanasi}')
-        document.add_paragraph(f'Qaytarish sana: {shartnoma.qaytish_sanasi}')
-        document.add_paragraph(f'Kunlar soni: {shartnoma.kunlar_soni}')
-        document.add_paragraph(f'Umumiy narx: {shartnoma.umumiy_narx} so`m')
-        document.add_paragraph(f'Montaj: {shartnoma.montaj}')
-        document.add_paragraph(f'Xizmat narxi: {shartnoma.xizmat_narxi} so`m')
-        document.add_paragraph(f'Avans: {shartnoma.avans} so`m')
-        document.add_paragraph(f'Miqdori: {shartnoma.miqdori}')
-        document.add_paragraph(f'Kunlik narxi: {shartnoma.kunlik_narxi} so`m')
+        document.add_paragraph(f'Клиент: {shartnoma.mijoz.ism}')
+        document.add_paragraph(f'Устройство:  {shartnoma.qurilma.nomi}')
+        document.add_paragraph(f'Количество: {shartnoma.miqdori}')
+        document.add_paragraph(f'Работник:  {shartnoma.ishchi.ism}')
+        document.add_paragraph(f'Дата выдачи: {shartnoma.berilgan_sanasi}')
+        document.add_paragraph(f'Дата возврата: {shartnoma.qaytish_sanasi}')
+        document.add_paragraph(f'Количество дней: {shartnoma.kunlar_soni}')
+        document.add_paragraph(f'Монтаж  {shartnoma.montaj}')
+        document.add_paragraph(f'Цена услуги: {shartnoma.xizmat_narxi} сум')
+        document.add_paragraph(f'Залок: {shartnoma.avans} сум')
+        document.add_paragraph(f'Ежедневная цена: {shartnoma.kunlik_narxi} сум')
+        document.add_paragraph(f'Общая цена: {shartnoma.umumiy_narx} сум')
+
 
         file_name = f'shartnoma_{shartnoma.id}.docx'
 
@@ -142,7 +145,7 @@ class ShartnomaDownloadView(View):
         
         return response
     
-class QaytarishView(View):
+class QaytarishView(LoginRequiredMixin,View):
     def get(self,request):
         form=QaytarishForm()
         malumot=Qaytarish.objects.all()
@@ -157,12 +160,12 @@ class QaytarishView(View):
             message='Saqlanmadi'
             return redirect('qaytarish',{'message':message,'malumotlar':malumot})
 
-class QaytarishDeleteView(View):
+class QaytarishDeleteView(LoginRequiredMixin,View):
     def get(self,request,pk):
         malumot=Qaytarish.objects.get(id=pk)
         malumot.delete()
         return redirect ('qaytarish')
-class QaytarishEditView(UpdateView):
+class QaytarishEditView(LoginRequiredMixin,UpdateView):
     model = Qaytarish
     form_class=QaytarishForm
     template_name = 'qaytarish_edit.html'
@@ -216,7 +219,9 @@ class IshchiQoshishView(LoginRequiredMixin, View):
         ishchi_form = IshchiForm(data=request.POST)
         ishchilar = CustomUser.objects.all()
         if ishchi_form.is_valid():
-            ishchi_form.save()
+            new_ishchi = ishchi_form.save(commit=False)
+            new_ishchi.password = make_password(ishchi_form.cleaned_data['password'])
+            new_ishchi.save()
             return redirect('ishchilar')
         else:
             return render(request, 'ishchi_form.html', {'form': ishchi_form, 'ishchilar': ishchilar, 'message': 'Ishchi saqlanmadi'})

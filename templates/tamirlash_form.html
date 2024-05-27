@@ -66,14 +66,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Yangi Tamirlash</h1>
+        <h1>Новый ремонт</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Saqlash</button>
+            <button type="submit">Сохранять</button>
         </form>
         <div class="back-link">
-            <a href="{% url 'tamirlash' %}">Ortga qaytish</a>
+            <a href="{% url 'tamirlash' %}">Назад</a>
         </div>
     </div>
 </body>

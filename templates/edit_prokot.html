@@ -79,6 +79,42 @@
             <button type="submit">Сохранять</button>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const berilganSanasi = document.getElementById('id_berilgan_sanasi');
+            const qaytishSanasi = document.getElementById('id_qaytish_sanasi');
+            const kunlarSoni = document.getElementById('id_kunlar_soni');
+            const kunlikNarxi = document.getElementById('id_kunlik_narxi');
+            const umumiyNarx = document.getElementById('id_umumiy_narx');
+            const miqdori = document.getElementById('id_miqdori');
+            const avans = document.getElementById('id_xizmat_narxi');
+
+            function calculateDays() {
+                const startDate = new Date(berilganSanasi.value);
+                const endDate = new Date(qaytishSanasi.value);
+                const timeDifference = endDate - startDate;
+                const daysDifference = timeDifference / (1000 * 3600 * 24);
+                if (!isNaN(daysDifference)) {
+                    kunlarSoni.value = daysDifference;
+                    calculateTotal();
+                }
+            }
+
+            function calculateTotal() {
+                const dailyPrice = parseFloat(kunlikNarxi.value) || 0;
+                const days = parseFloat(kunlarSoni.value) || 0;
+                const quantity = parseFloat(miqdori.value) || 0;
+                const total = (dailyPrice * days * quantity) + parseFloat(avans.value || 0);
+                umumiyNarx.value = total.toFixed(2);
+            }
+
+            berilganSanasi.addEventListener('change', calculateDays);
+            qaytishSanasi.addEventListener('change', calculateDays);
+            kunlikNarxi.addEventListener('input', calculateTotal);
+            miqdori.addEventListener('input', calculateTotal);
+            avans.addEventListener('input', calculateTotal);
+        });
+    </script>
 
 </body>
 
