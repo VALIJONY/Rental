@@ -55,7 +55,7 @@ class ProkotForm(forms.ModelForm):
         labels = {
             'mijoz': 'Клиент',
             'qurilma': 'Устройство',
-            'ishchi': 'Работник',
+            'ishchi': 'Сотрудник',
             'berilgan_sanasi': 'Дата выдачи',
             'qaytish_sanasi': 'Дата возврата',
             'kunlar_soni': 'Количество дней',

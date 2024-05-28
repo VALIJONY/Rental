@@ -105,7 +105,7 @@ a[href="{% url 'logout' %}"]:hover {
             <ul>
                 <li><a href="{% url 'mijoz'%}">Добавить клиента</a></li>
                 <li><a href="{% url 'qurilmalar'%}">Добавить устройство</a></li>
-                <li><a href="{% url 'ishchilar'%}">Добавить работника</a></li>
+                <li><a href="{% url 'ishchilar'%}">Добавить сотрудник</a></li>
                 <li><a href="{% url 'tamirlash'%}">Ремонт</a></li>
                 <li><a href="{% url 'prokot'%}">Заключение договора</a></li>
                 <li><a href="{% url 'qaytarish'%}">Возврат</a></li>
@@ -113,14 +113,14 @@ a[href="{% url 'logout' %}"]:hover {
             {%endif%}
             {% if request.user.lavozimi == "Direktor"%}
             <ul>
-                <li><a href="{% url 'ishchilar'%}">Добавить работника</a></li>
+                <li><a href="{% url 'ishchilar'%}">Добавить сотрудник</a></li>
                 <li><a href="{% url 'prokot'%}">Заключение договора</a></li>
                 <li><a href="{% url 'qaytarish'%}">Возврат</a></li>
             </ul>
             {%endif%}
             {% if request.user.lavozimi == "Master"%}
             <ul>
-                <li><a href="{% url 'ishchilar'%}">Добавить работника</a></li>
+                <li><a href="{% url 'ishchilar'%}">Добавить сотрудник</a></li>
                 <li><a href="{% url 'tamirlash'%}">Ремонт</a></li>
             </ul>
             {%endif%}
