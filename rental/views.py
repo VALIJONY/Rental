@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login,logout
@@ -171,6 +171,46 @@ class QaytarishEditView(LoginRequiredMixin,UpdateView):
     template_name = 'qaytarish_edit.html'
     success_url = reverse_lazy('qaytarish')
     
+    
+    
+def generate_return_docx(qaytarish):
+    """
+    Qaytarish obyektini qabul qilib uni docx formatidagi hujjatga yozish.
+    """
+    document = Document()
+
+    document.add_heading('Возврат', level=1)
+
+    document.add_paragraph(f'Дата возврата: {qaytarish.qaytarilgan_sana}')
+    document.add_paragraph(f'Количество: {qaytarish.miqdori}')
+    document.add_paragraph(f'Дефект: {qaytarish.nosozlik}')
+    document.add_paragraph(f'Цена: {qaytarish.summa} сум')
+    document.add_paragraph(f'Прокат: {qaytarish.prokat}')
+
+    return document
+
+class ReturnDocumentDownloadView(View):
+    """
+    Qaytarish obyektini Word hujjat sifatida foydalanuvchiga yuklash.
+    """
+    def get(self, request, pk):
+        try:
+            qaytarish = Qaytarish.objects.get(id=pk)
+        except Qaytarish.DoesNotExist:
+            return HttpResponse("Qaytarish topilmadi", status=404)
+        
+        document = generate_return_docx(qaytarish)
+
+        file_name = f'qaytarish_{qaytarish.id}.docx'
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+        
+        document.save(response)
+        
+        return response
+
+    
 class TamirlashView(LoginRequiredMixin, View):
     def get(self, request):
         tamirlash = Tamirlash.objects.all()
@@ -241,3 +281,5 @@ class IshchiDeleteView(LoginRequiredMixin, View):
         ischi = CustomUser.objects.get(id=id)
         ischi.delete()
         return redirect('ishchilar')
+    
+

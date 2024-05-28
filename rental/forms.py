@@ -38,13 +38,14 @@ class MijozForm(forms.ModelForm):
 class QurilmaForm(forms.ModelForm):
     class Meta:
         model=Qurilmalar
-        fields=['tur','nomi','tasnif','rasmi','holati']
+        fields=['tur','nomi','tasnif','rasmi','holati','narxi']
         labels={
             'tur':'Тип',
             'nomi':'Название',
             'tasnif':'Классификация',
             'rasmi':'Картина',
-            'holati':'Положение'
+            'holati':'Положение',
+            'narxi':'Цена'
         }
         
 class ProkotForm(forms.ModelForm):
@@ -99,8 +100,9 @@ class IshchiForm(forms.ModelForm):
 class TamirlashForm(forms.ModelForm):
     class Meta:
         model = Tamirlash
-        fields = ['qurilma','user']
+        fields = ['qurilma','user','sana']
         labels = {
             'qurilma':'Оборудования',
-            'user':'Мастер'
+            'user':'Мастер',
+            'sana':'Дата'
         }

@@ -190,20 +190,30 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">SAVE</button>
+            <button type="submit">СОХРАНЯТЬ</button>
         </form>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const qurilma = document.getElementById('id_qurilma');
+            const kunlikNarxi = document.getElementById('id_kunlik_narxi');
             const berilganSanasi = document.getElementById('id_berilgan_sanasi');
             const qaytishSanasi = document.getElementById('id_qaytish_sanasi');
             const kunlarSoni = document.getElementById('id_kunlar_soni');
-            const kunlikNarxi = document.getElementById('id_kunlik_narxi');
-            const umumiyNarx = document.getElementById('id_umumiy_narx');
             const miqdori = document.getElementById('id_miqdori');
-            const avans = document.getElementById('id_xizmat_narxi');
-
+            const avans = document.getElementById('id_avans');
+            const umumiyNarx = document.getElementById('id_umumiy_narx');
+    
+            function calculateTotal() {
+                const dailyPrice = parseFloat(kunlikNarxi.value) || 0;
+                const days = parseFloat(kunlarSoni.value) || 0;
+                const quantity = parseFloat(miqdori.value) || 0;
+                const advance = parseFloat(avans.value) || 0;
+                const total = (dailyPrice * days * quantity) + advance;
+                umumiyNarx.value = total.toFixed(2);
+            }
+    
             function calculateDays() {
                 const startDate = new Date(berilganSanasi.value);
                 const endDate = new Date(qaytishSanasi.value);
@@ -214,15 +224,20 @@
                     calculateTotal();
                 }
             }
+    
+            document.addEventListener('DOMContentLoaded', function () {
+        const qurilmaSelect = document.getElementById('id_qurilma');
+        const kunlikNarxiInput = document.getElementById('id_kunlik_narxi');
 
-            function calculateTotal() {
-                const dailyPrice = parseFloat(kunlikNarxi.value) || 0;
-                const days = parseFloat(kunlarSoni.value) || 0;
-                const quantity = parseFloat(miqdori.value) || 0;
-                const total = (dailyPrice * days * quantity) + parseFloat(avans.value || 0);
-                umumiyNarx.value = total.toFixed(2);
-            }
-
+        qurilmaSelect.addEventListener('change', function () {
+            const selectedOption = qurilmaSelect.options[qurilmaSelect.selectedIndex];
+            const price = parseFloat(selectedOption.getAttribute('data-narxi')) || 0;
+            kunlikNarxiInput.value = price.toFixed(2);
+        });
+    });
+    
+            // Event listeners
+            qurilma.addEventListener('change', updateDailyPrice);
             berilganSanasi.addEventListener('change', calculateDays);
             qaytishSanasi.addEventListener('change', calculateDays);
             kunlikNarxi.addEventListener('input', calculateTotal);
@@ -230,8 +245,7 @@
             avans.addEventListener('input', calculateTotal);
         });
     </script>
-
-
+    
 
     {%endblock content%}
 </body>

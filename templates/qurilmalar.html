@@ -167,6 +167,7 @@
                 <th>Классификация</th>
                 <th>Положение</th>
                 <th>Картина</th>
+                <th>Цена</th>
                 <th>Редактировать</th>
                 <th>Удалить</th>
             </tr>
@@ -179,6 +180,7 @@
                 <td>{{ qurilma.tasnif }}</td>
                 <td>{{ qurilma.holati }}</td>
                 <td><img src="{{ qurilma.rasmi.url }}" alt="{{ qurilma.nomi }}"></td>
+                <td>{{qurilma.narxi}}</td>
                 <td style="text-align: center;"> <a href="{%url 'qurilma_edit' qurilma.pk%}"><svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
                     height="24">
                     <path d="M12 20h9" stroke="#000" stroke-width="2" stroke-linecap="round"

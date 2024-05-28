@@ -14,6 +14,8 @@ class Qurilmalar(models.Model):
     tasnif = models.CharField(max_length=255)
     rasmi = models.ImageField(default='static/img/default.jpg')
     holati = models.CharField(max_length=255)
+    narxi =  models.DecimalField(max_digits=10, decimal_places=2 ,default=0)
+
 
     def __str__(self):
         return self.nomi
@@ -57,7 +59,7 @@ class Prokat(models.Model):
     kunlik_narxi =  models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):
-        return str(self.id)
+        return str(self.qurilma)
 
 class Qaytarish(models.Model):
     qaytarilgan_sana = models.DateField(default=timezone.now)
