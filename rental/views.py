@@ -115,35 +115,127 @@ class ShartnomaDeleteView(LoginRequiredMixin,View):
         shartnoma = Prokat.objects.get(id=pk)
         shartnoma.delete()
         return redirect('prokot')
+    
+    
+from django.http import HttpResponse
+from django.views import View
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+from .models import Prokat
+
 class ShartnomaDownloadView(View):
     def get(self, request, pk):
         shartnoma = Prokat.objects.get(id=pk)
         document = Document()
 
-        document.add_heading('Shartnoma', 0)
+        # Heading
+        heading = document.add_heading(level=0)
+        run = heading.add_run('Компания проката ИП Сумин Н.Л ИНН 665899871416, 620102, г.\n'
+                              'Екатеринбург, ул. Радищева, д.57, кв.63, тел.:8-343-200-08-06')
+        
+        run.font.size = Pt(14)
+        run.bold = True
+        heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
-        document.add_paragraph(f'Клиент: {shartnoma.mijoz.ism}')
-        document.add_paragraph(f'Устройство:  {shartnoma.qurilma.nomi}')
-        document.add_paragraph(f'Количество: {shartnoma.miqdori}')
-        document.add_paragraph(f'Работник:  {shartnoma.ishchi.ism}')
-        document.add_paragraph(f'Дата выдачи: {shartnoma.berilgan_sanasi}')
-        document.add_paragraph(f'Дата возврата: {shartnoma.qaytish_sanasi}')
+        title = document.add_paragraph('Квитанция об оплате')
+        title.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+        # Order details
+        table = document.add_table(rows=3, cols=2)
+        table.cell(0, 0).text = 'Номер заказа:'
+        table.cell(0, 1).text = f'{shartnoma.id:08d}'
+        table.cell(1, 0).text = 'Дата начала:'
+        table.cell(1, 1).text = shartnoma.berilgan_sanasi.strftime('%d.%m.%Y %H:%M')
+        table.cell(2, 0).text = 'Дата окончания:'
+        table.cell(2, 1).text = shartnoma.qaytish_sanasi.strftime('%d.%m.%Y %H:%M')
+
+        document.add_paragraph(f'ФИО заказчика: {shartnoma.mijoz.ism}')
+
+        
+        # Item details
+        document.add_paragraph()
+        table = document.add_table(rows=1, cols=4)
+        hdr_cells = table.rows[0].cells
+        hdr_cells[0].text = 'Название'
+        hdr_cells[1].text = 'Залог (руб)'
+        hdr_cells[2].text = 'Цена проката за сутки (руб)'
+        hdr_cells[3].text = 'Количество'
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = shartnoma.qurilma.nomi
+        row_cells[1].text = str(shartnoma.avans)
+        row_cells[2].text = str(shartnoma.kunlik_narxi)
+        row_cells[3].text = str(shartnoma.miqdori)
+
+        # Adding borders to the table
+        for row in table.rows:
+            for cell in row.cells:
+                tc_pr = cell._element.get_or_add_tcPr()
+                tc_borders = OxmlElement('w:tcBorders')
+                for border_name in ['top', 'left', 'bottom', 'right']:
+                    border = OxmlElement(f'w:{border_name}')
+                    border.set(qn('w:val'), 'single')
+                    tc_borders.append(border)
+                tc_pr.append(tc_borders)
+
+        # Summary details
+        document.add_paragraph()
+        document.add_paragraph(f'Сумма залога (руб): {shartnoma.avans}')
+        document.add_paragraph(f'Стоимость проката с учётом количества дней (руб): {shartnoma.kunlik_narxi}')
         document.add_paragraph(f'Количество дней: {shartnoma.kunlar_soni}')
-        document.add_paragraph(f'Монтаж  {shartnoma.montaj}')
-        document.add_paragraph(f'Цена услуги: {shartnoma.xizmat_narxi} сум')
-        document.add_paragraph(f'Залок: {shartnoma.avans} сум')
-        document.add_paragraph(f'Ежедневная цена: {shartnoma.kunlik_narxi} сум')
-        document.add_paragraph(f'Общая цена: {shartnoma.umumiy_narx} сум')
+        document.add_paragraph()
+        document.add_paragraph(f'Сумма к оплате: {shartnoma.umumiy_narx} (руб)')
+        document.add_paragraph()
 
+        # Signatures
+        document.add_paragraph('Подпись заказчика: _____________________________________')
+        document.add_paragraph(f'{shartnoma.mijoz.ism}')
+        document.add_paragraph('Подпись сотрудника: ____________________________________')
+        document.add_paragraph(f'{shartnoma.ishchi.ism}')
 
+        # Response
         file_name = f'shartnoma_{shartnoma.id}.docx'
-
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = f'attachment; filename={file_name}'
-        
         document.save(response)
-        
+
         return response
+
+
+
+    
+# class ShartnomaDownloadView(View):
+#     def get(self, request, pk):
+#         shartnoma = Prokat.objects.get(id=pk)
+#         document = Document()
+
+#         document.add_heading('Shartnoma', 0)
+
+#         document.add_paragraph(f'Клиент: {shartnoma.mijoz.ism}')
+#         document.add_paragraph(f'Устройство:  {shartnoma.qurilma.nomi}')
+#         document.add_paragraph(f'Количество: {shartnoma.miqdori}')
+#         document.add_paragraph(f'Работник:  {shartnoma.ishchi.ism}')
+#         document.add_paragraph(f'Дата выдачи: {shartnoma.berilgan_sanasi}')
+#         document.add_paragraph(f'Дата возврата: {shartnoma.qaytish_sanasi}')
+#         document.add_paragraph(f'Количество дней: {shartnoma.kunlar_soni}')
+#         document.add_paragraph(f'Монтаж  {shartnoma.montaj}')
+#         document.add_paragraph(f'Цена услуги: {shartnoma.xizmat_narxi} сум')
+#         document.add_paragraph(f'Залок: {shartnoma.avans} сум')
+#         document.add_paragraph(f'Ежедневная цена: {shartnoma.kunlik_narxi} сум')
+#         document.add_paragraph(f'Общая цена: {shartnoma.umumiy_narx} сум')
+
+
+#         file_name = f'shartnoma_{shartnoma.id}.docx'
+
+#         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+#         response['Content-Disposition'] = f'attachment; filename={file_name}'
+        
+#         document.save(response)
+        
+#         return response
     
 class QaytarishView(LoginRequiredMixin,View):
     def get(self,request):
@@ -173,41 +265,92 @@ class QaytarishEditView(LoginRequiredMixin,UpdateView):
     
     
     
-def generate_return_docx(qaytarish):
-    """
-    Qaytarish obyektini qabul qilib uni docx formatidagi hujjatga yozish.
-    """
-    document = Document()
+from django.http import HttpResponse
+from django.views import View
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+from .models import Qaytarish
 
-    document.add_heading('Возврат', level=1)
-
-    document.add_paragraph(f'Дата возврата: {qaytarish.qaytarilgan_sana}')
-    document.add_paragraph(f'Количество: {qaytarish.miqdori}')
-    document.add_paragraph(f'Дефект: {qaytarish.nosozlik}')
-    document.add_paragraph(f'Цена: {qaytarish.summa} сум')
-    document.add_paragraph(f'Прокат: {qaytarish.prokat}')
-
-    return document
-
-class ReturnDocumentDownloadView(View):
-    """
-    Qaytarish obyektini Word hujjat sifatida foydalanuvchiga yuklash.
-    """
+class QaytarishDocxDownloadView(View):
     def get(self, request, pk):
-        try:
-            qaytarish = Qaytarish.objects.get(id=pk)
-        except Qaytarish.DoesNotExist:
-            return HttpResponse("Qaytarish topilmadi", status=404)
-        
-        document = generate_return_docx(qaytarish)
+        qaytarish = Qaytarish.objects.get(id=pk)
+        document = Document()
 
+        # Heading
+        heading = document.add_heading(level=0)
+        run = heading.add_run('Компания проката ИП Сумин Н.Л ИНН 665899871416, 620102, г.\n'
+                              'Екатеринбург, ул. Радищева, д.57, кв.63, тел.:8-343-200-08-06')
+        run.font.size = Pt(14)  # Setting smaller font size
+        run.bold = True
+        heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+        title = document.add_paragraph('Квитанция о возврате')
+        title.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+        # Order details
+        table = document.add_table(rows=3, cols=2)
+        table.cell(0, 0).text = 'Номер заказа:'
+        table.cell(0, 1).text = f'{qaytarish.prokat.id:08d}'
+        table.cell(1, 0).text = 'Дата начала:'
+        table.cell(1, 1).text = qaytarish.prokat.berilgan_sanasi.strftime('%d.%m.%Y %H:%M')
+        table.cell(2, 0).text = 'Дата возврата:'
+        table.cell(2, 1).text = qaytarish.qaytarilgan_sana.strftime('%d.%m.%Y %H:%M')
+
+        document.add_paragraph(f'ФИО заказчика: {qaytarish.prokat.mijoz.ism}')
+
+        # Adding borders to the table
+        
+
+        # Item details
+        document.add_paragraph()
+        table = document.add_table(rows=1, cols=4)
+        hdr_cells = table.rows[0].cells
+        hdr_cells[0].text = 'Название'
+        hdr_cells[1].text = 'Залог (сум)'
+        hdr_cells[2].text = 'Цена проката за сутки (сум)'
+        hdr_cells[3].text = 'Количество'
+
+        row_cells = table.add_row().cells
+        row_cells[0].text = qaytarish.prokat.qurilma.nomi
+        row_cells[1].text = str(qaytarish.prokat.avans)
+        row_cells[2].text = str(qaytarish.prokat.kunlik_narxi)
+        row_cells[3].text = str(qaytarish.prokat.miqdori)
+
+        # Adding borders to the table
+        for row in table.rows:
+            for cell in row.cells:
+                tc_pr = cell._element.get_or_add_tcPr()
+                tc_borders = OxmlElement('w:tcBorders')
+                for border_name in ['top', 'left', 'bottom', 'right']:
+                    border = OxmlElement(f'w:{border_name}')
+                    border.set(qn('w:val'), 'single')
+                    tc_borders.append(border)
+                tc_pr.append(tc_borders)
+
+        # Summary details
+        document.add_paragraph()
+        document.add_paragraph(f'Сумма залога (сум): {qaytarish.prokat.avans}')
+        document.add_paragraph(f'Стоимость проката с учётом количества дней (сум): {qaytarish.prokat.kunlik_narxi}')
+        document.add_paragraph(f'Количество дней: {qaytarish.prokat.kunlar_soni}')
+        document.add_paragraph()
+        document.add_paragraph(f'Сумма к оплате: {qaytarish.prokat.umumiy_narx} (сум)')
+        document.add_paragraph()
+
+        # Signatures
+        document.add_paragraph('Подпись заказчика: _____________________________________')
+        document.add_paragraph(f'{qaytarish.prokat.mijoz.ism}')
+        document.add_paragraph('Подпись сотрудника: ____________________________________')
+        document.add_paragraph(f'{qaytarish.prokat.ishchi.ism}')
+
+        # Response
         file_name = f'qaytarish_{qaytarish.id}.docx'
-
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = f'attachment; filename="{file_name}"'
-        
+        response['Content-Disposition'] = f'attachment; filename={file_name}'
         document.save(response)
-        
+
         return response
 
     

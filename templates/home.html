@@ -1,134 +1,143 @@
 <!DOCTYPE html>
-{%load static%}
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-Tj6oa6YmsR9S4QzjnjlK9p5ykihLiWooQvLzFksbHr+epVOLwq9TmW1N8MZmFtjmk0aR8lIa4p5lpXw/1uSyKg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-      .layout {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-}
+        /* Your existing CSS styles */
+        .layout {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
 
- .second {
-    flex-basis: 74%; 
-    border: 2px solid black; 
-    padding: 10px; 
-    position: sticky;
-}
-.first{
-    flex-basis: 25%;
-    border: 2px solid black;
-    position: sticky;
-}
-body {
-    font-family: Arial, sans-serif; 
-    margin: 0;
-    padding: 0;
-}
+        .second {
+            flex-basis: 74%;
+            border: 2px solid black;
+            padding: 10px;
+            position: sticky;
+        }
 
-.title {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-}
+        .first {
+            flex-basis: 25%;
+            border: 2px solid black;
+            position: sticky;
+        }
 
-.layout {
-    display: flex;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-.first {
-    width: 200px; 
-    background-color: #f4f4f4;
-}
+        .title {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-.first ul {
-    list-style-type: none;
-    padding: 0;
-}
+        .layout {
+            display: flex;
+        }
 
-.first ul li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc; 
-}
+        .first {
+            width: 200px;
+            background-color: #f4f4f4;
+        }
 
-.first ul li:hover {
-    background-color: #ddd; 
-}
+        .first ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-.first ul li a {
-    text-decoration: none;
-    color: #333;
-}
+        .first ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
 
-.first ul li a:hover {
-    color: #000;
-}
+        .first ul li:hover {
+            background-color: #ddd;
+        }
 
-.second {
-    flex: 1;
-    padding: 20px;
-    background-color: #fff;
-}
-a[href="{% url 'logout' %}"] {
-    position: absolute; 
-    top: 10px; 
-    right: 10px; 
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-}
+        .first ul li a {
+            text-decoration: none;
+            color: #333;
+        }
 
-a[href="{% url 'logout' %}"]:hover {
-    background-color: #555;
-}
-.title{
-    font-weight: bold;
-    text-transform: uppercase;
-}
+        .first ul li a:hover {
+            color: #000;
+        }
 
+        .second {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+        }
 
+        a[href="{% url 'logout' %}"] {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a[href="{% url 'logout' %}"]:hover {
+            background-color: #555;
+        }
+
+        /* Additional styles for icons */
+        .first ul li a i {
+            margin-right: 10px;
+        }
     </style>
     <title>Админ</title>
 </head>
 <body>
     <h1 class="title"> Добро пожаловать {{request.user.username}}</h1>
-    <a href="{% url 'logout'%}">ВЫЙТИ</a>
+    <a href="{% url 'logout'%}">ВЫЙТИ <i class="fas fa-sign-out-alt"></i></a> <!-- Font Awesome icon for logout -->
     <main class="layout">
         <section class="first">
             {% if request.user.lavozimi == "Admin"%}
             <ul>
-                <li><a href="{% url 'mijoz'%}">Добавить клиента</a></li>
-                <li><a href="{% url 'qurilmalar'%}">Добавить устройство</a></li>
-                <li><a href="{% url 'ishchilar'%}">Добавить сотрудник</a></li>
-                <li><a href="{% url 'tamirlash'%}">Ремонт</a></li>
-                <li><a href="{% url 'prokot'%}">Заключение договора</a></li>
-                <li><a href="{% url 'qaytarish'%}">Возврат</a></li>
+                <li><a href="{% url 'mijoz'%}"><i class="fas fa-user-plus"></i> Добавить клиента</a></li> <!-- Font Awesome icon for adding user -->
+                <li><a href="{% url 'qurilmalar'%}"><i class="fas fa-laptop"></i> Добавить устройство</a></li> <!-- Font Awesome icon for adding device -->
+                <li><a href="{% url 'ishchilar'%}"><i class="fas fa-user-plus"></i> Добавить сотрудник</a></li>
+                <li><a href="{% url 'tamirlash'%}"><i class="fas fa-tools"></i> Ремонт</a></li> <!-- Font Awesome icon for repair -->
+                <li><a href="{% url 'prokot'%}"><i class="fas fa-file-contract"></i> Заключение договора</a></li> <!-- Font Awesome icon for contract -->
+                <li><a href="{% url 'qaytarish'%}"><i class="fas fa-undo"></i> Возврат</a></li> <!-- Font Awesome icon for return -->
             </ul>
             {%endif%}
             {% if request.user.lavozimi == "Direktor"%}
             <ul>
-                <li><a href="{% url 'ishchilar'%}">Добавить сотрудник</a></li>
-                <li><a href="{% url 'prokot'%}">Заключение договора</a></li>
-                <li><a href="{% url 'qaytarish'%}">Возврат</a></li>
+                <li><a href="{% url 'ishchilar'%}"><i class="fas fa-user-plus"></i> Добавить сотрудник</a></li>
+                <li><a href="{% url 'prokot'%}"><i class="fas fa-file-contract"></i> Заключение договора</a></li>
+                <li><a href="{% url 'qaytarish'%}"><i class="fas fa-undo"></i> Возврат</a></li>
             </ul>
             {%endif%}
             {% if request.user.lavozimi == "Master"%}
             <ul>
-                <li><a href="{% url 'ishchilar'%}">Добавить сотрудник</a></li>
-                <li><a href="{% url 'tamirlash'%}">Ремонт</a></li>
+                <li><a href="{% url 'ishchilar'%}"><i class="fas fa-user-plus"></i> Добавить сотрудник</a></li>
+                <li><a href="{% url 'tamirlash'%}"><i class="fas fa-tools"></i> Ремонт</a></li>
             </ul>
             {%endif%}
         </section>
         <section class="second">
-            {%block content%}
-            {%endblock content%}
+            {% block content %}
+            {% endblock content %}
         </section>
     </main>
+    <!-- Font Awesome Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" integrity="sha512-Vy3u4qE5LVPR9p0vVfGxgrNT0gF+QlMA53q9zPKjHw4Rl6TIbEXWfW/7qlaXVslwL2oYtD1FRD7b06NYqD8Lxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

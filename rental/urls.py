@@ -20,7 +20,7 @@ urlpatterns = [
     path('qaytarish/',QaytarishView.as_view(),name='qaytarish'),
     path('deleteqaytarish/<int:pk>/',QaytarishDeleteView.as_view(),name='qaytarish_delete'),
     path('qaytarish/<int:pk>/edit/', QaytarishEditView.as_view(), name='qaytarish_edit'),
-    path('qaytarish/download/<int:pk>/', ReturnDocumentDownloadView.as_view(), name='qaytarish_download'),
+    path('qaytarish/download/<int:pk>/', QaytarishDocxDownloadView.as_view(), name='qaytarish_download'),
 
     path('ishchilar/', IshchiView.as_view(), name='ishchilar'),
     path('ishchilar/qosh/', IshchiQoshishView.as_view(), name='ishchi_qoshish'),
