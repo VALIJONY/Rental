@@ -134,7 +134,7 @@ class ShartnomaDownloadView(View):
         # Heading
         heading = document.add_heading(level=0)
         run = heading.add_run('Хорезмская область прокатная компания ИНН 665899871416, 620102, г.\n'
-                              'Аль Хорезми, ул. Телефон Радищевой: +998(99)-999-99-99')
+                              'Аль Хорезми, ул. Телефон: +998(99)-999-99-99')
         run.font.size = Pt(13)
         run.bold = True
         heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
@@ -159,8 +159,8 @@ class ShartnomaDownloadView(View):
         table = document.add_table(rows=1, cols=4)
         hdr_cells = table.rows[0].cells
         hdr_cells[0].text = 'Название'
-        hdr_cells[1].text = 'Залог (руб)'
-        hdr_cells[2].text = 'Цена проката за сутки (руб)'
+        hdr_cells[1].text = 'Залог (сум)'
+        hdr_cells[2].text = 'Цена проката за сутки (сум)'
         hdr_cells[3].text = 'Количество'
 
         row_cells = table.add_row().cells
@@ -182,11 +182,11 @@ class ShartnomaDownloadView(View):
 
         # Summary details
         document.add_paragraph()
-        document.add_paragraph(f'Сумма залога (руб): {shartnoma.avans}')
-        document.add_paragraph(f'Стоимость проката с учётом количества дней (руб): {shartnoma.kunlik_narxi}')
+        document.add_paragraph(f'Сумма залога (сум): {shartnoma.avans}')
+        document.add_paragraph(f'Стоимость проката с учётом количества дней (сум): {shartnoma.kunlik_narxi}')
         document.add_paragraph(f'Количество дней: {shartnoma.kunlar_soni}')
         document.add_paragraph()
-        document.add_paragraph(f'Сумма к оплате: {shartnoma.umumiy_narx} (руб)')
+        document.add_paragraph(f'Сумма к оплате: {shartnoma.umumiy_narx} (сум)')
         document.add_paragraph()
 
         # Signatures
@@ -281,7 +281,7 @@ class QaytarishDocxDownloadView(View):
         # Heading
         heading = document.add_heading(level=0)
         run = heading.add_run('Хорезмская область прокатная компания ИНН 665899871416, 620102, г.\n'
-                              'Аль Хорезми, ул. Телефон Радищевой: +998(99)-999-99-99')
+                              'Аль Хорезми, ул. Телефон: +998(99)-999-99-99')
         run.font.size = Pt(13)  # Setting smaller font size
         run.bold = True
         heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
