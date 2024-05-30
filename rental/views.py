@@ -133,10 +133,9 @@ class ShartnomaDownloadView(View):
 
         # Heading
         heading = document.add_heading(level=0)
-        run = heading.add_run('Компания проката ИП Сумин Н.Л ИНН 665899871416, 620102, г.\n'
-                              'Екатеринбург, ул. Радищева, д.57, кв.63, тел.:8-343-200-08-06')
-        
-        run.font.size = Pt(14)
+        run = heading.add_run('Хорезмская область прокатная компания ИНН 665899871416, 620102, г.\n'
+                              'Аль Хорезми, ул. Телефон Радищевой: +998(99)-999-99-99')
+        run.font.size = Pt(13)
         run.bold = True
         heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
@@ -281,9 +280,9 @@ class QaytarishDocxDownloadView(View):
 
         # Heading
         heading = document.add_heading(level=0)
-        run = heading.add_run('Компания проката ИП Сумин Н.Л ИНН 665899871416, 620102, г.\n'
-                              'Екатеринбург, ул. Радищева, д.57, кв.63, тел.:8-343-200-08-06')
-        run.font.size = Pt(14)  # Setting smaller font size
+        run = heading.add_run('Хорезмская область прокатная компания ИНН 665899871416, 620102, г.\n'
+                              'Аль Хорезми, ул. Телефон Радищевой: +998(99)-999-99-99')
+        run.font.size = Pt(13)  # Setting smaller font size
         run.bold = True
         heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
