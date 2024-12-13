@@ -1,104 +1,247 @@
-
 {%extends 'home.html'%}
 {%block content%}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ</title>
-  <style>
-    table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
+        thead {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
-th, td {
-    padding: 10px;
-    text-align: left;
-}
+        thead td {
+            padding: 12px 15px;
+        }
 
-th {
-    background-color: #f2f2f2;
-}
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-form {
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    max-width: 600px;
-    margin: auto;
-}
+        tbody tr {
+            transition: background-color 0.3s ease;
+        }
 
-form p {
-    margin-bottom: 15px;
-}
+        tbody tr:hover {
+            background-color: #ddd;
+        }
 
-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
+        tbody td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ccc;
+        }
 
-form input[type="text"], form input[type="radio"] {
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
+        td a {
+            color: #007bff;
+            /* Link rangini ko'k qilish */
+            text-decoration: none;
+            /* Link ostidagi chiziqni olib tashlash */
+        }
 
-form input[type="radio"] {
-    width: auto;
-}
+        td a:hover {
+            text-decoration: underline;
+            /* Link ustiga olib borilganda chiziq qo'shish */
+        }
 
-form div#id_jinsi {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+        table thead tr {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
+            color: white;
+            /* Yozuvlar ko'rinishi uchun oq rangda qilindi */
+        }
 
-form button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        table thead tr td {
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #fff;
+            /* Oq rangda chiziq qo'shildi */
+        }
 
-form button:hover {
-    background-color: #45a049;
-}
-.edit-icon {
+        table tbody tr {
+            background-color: #f9f9f9;
+            color: #000;
+        }
+
+        table tbody tr:hover {
+            background-color: #ddd;
+            /* Hover effekti uchun */
+        }
+
+        table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+
+        /* Ikona dizayni */
+        .edit-icon {
+            fill: none;
+            stroke: #007bff;
+            /* Ikonani ko'k rangda qilish */
+            transition: stroke 0.3s ease;
+        }
+
+        .edit-icon:hover {
+            stroke: #ff5733;
+            /* Hover qilinganida ikonani rangini o'zgartirish */
+            cursor: pointer;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            max-width: 600px;
+            margin: auto;
+            margin-bottom: 10px;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form input[type="radio"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form input[type="radio"] {
+            width: auto;
+        }
+
+        form div#id_jinsi {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        .edit-icon {
             width: 24px;
             height: 24px;
             cursor: pointer;
-            fill: #000; /* Ikonning rangi */
+            fill: #000;
+            /* Ikonning rangi */
             transition: fill 0.3s ease;
         }
+
         .edit-icon:hover {
-            fill: #007BFF; /* Hoverda ikonning rangi */
+            fill: #007BFF;
         }
-  </style>
+
+        .add {
+            display: flex;
+            justify-content: end;
+            margin-bottom: 10px;
+        }
+
+        .add a {
+            padding: 12px 25px;
+            text-decoration: none;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s;
+
+        }
+
+        .add a:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .edit-icon,
+        .bi-trash3-fill {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            transition: fill 0.3s;
+        }
+
+        .edit-icon:hover,
+        .bi-trash3-fill:hover {
+            fill: #f00;
+        }
+    </style>
 </head>
+
 <body>
+    {% if request.path == '/mijoz/' %}
+    <div class="add">
+        <a href="{%url 'mijozadd' %}">Mijoz qo`shish</a>
+    </div>
+    {%endif%}
+    {% if request.path == '/mijozadd/' %}
+    <div class="add">
+        <a href="{%url 'mijoz' %}">Orqaga qaytish</a>
+    </div>
+    {%endif%}
+
+    {% if request.path == "/mijozadd/" %}
+    <form method="post">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button type="submit">Сохранять</button>
+    </form>
+    {%endif%}
+    <h2>Mijozlar ro' yxati</h2>
     <table>
         <thead>
             <tr>
-                <td>Имя</td>
-                <td>Фамилия</td>
-                <td>Имя пользователя</td>
-                <td>Номер телефона</td>
-                <td>Пол</td>
-                <td>Пасспорт</td>
-                <td>ЖШШИР</td>
-                <td>РЕДАКТИРОВАТЬ</td>
+                <td>Ism</td>
+                <td>Familiya</td>
+                <td>foydalanuvchi nomi</td>
+                <td>Telefon raqam</td>
+                <td>Jinsi</td>
+                <td>Passport seriya raqam</td>
+                <td>JSHSHIR</td>
+                <td>Tahrirlash</td>
+                <td>O`chirish</td>
             </tr>
         </thead>
         <tbody>
@@ -111,23 +254,34 @@ form button:hover {
                 <td>{{i.jinsi}}</td>
                 <td>{{i.pasport}}</td>
                 <td>{{i.jshshir}}</td>
-                <td><a href="{% url 'edit_mijoz' i.pk %}"><svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                    <path d="M12 20h9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M16.5 3.5l4 4-12 12H4.5V13.5l12-12z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg></a></td>
+                <td><a href="{% url 'edit_mijoz' i.pk %}">
+                        <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                            height="24">
+                            <path d="M12 20h9" stroke="#000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M16.5 3.5l4 4-12 12H4.5V13.5l12-12z" stroke="#000" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'mijozdelete' i.pk%}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                            <path stroke="#000"
+                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                        </svg>
+                    </a>
+                </td>
             </tr>
             {%endfor%}
         </tbody>
     </table>
 
-    <p>{{message}}</p>
-    <form method="post">
-        {%csrf_token%}
-        {{form.as_p}}
-        <button type="submit">Сохранять</button>
-    </form>
 
 
-{%endblock content%}    
+
+    {%endblock content%}
 </body>
+
 </html>

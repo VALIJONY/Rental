@@ -1,19 +1,235 @@
-html,body{margin:0;padding:0}
-body{font: 76% arial,sans-serif;text-align:center}
-p{margin:0 10px 10px}
-a{padding:5px; text-decoration:none; color:#000000;}
-div#header{background-color:#F3F2ED;}
-div#header h1{height:80px;line-height:80px;margin:0;padding-left:10px;}
-div#container{text-align:left}
-div#content p{line-height:1.4}
-div#navigation{background:#F6F0E0;}
-div#navigation ul{margin:15px 0; padding:0; list-style-type:none;}
-div#navigation li{margin-bottom:5px;}
-div#extra{background:#CCC8B3;}
-div#footer{background:#BFBD93;}
-div#footer p{margin:0;padding:5px 10px}
-div#container{width:700px;margin:0 auto}
-div#content{float:right;width:500px}
-div#navigation{float:left;width:200px}
-div#extra{float:right;width:500px}
-div#footer{clear:both;width:100%}
+        /* Umumiy o'rnatmalar */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .header .profile-info {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .header img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .header .profile-details {
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .header .logo {
+            width: 300px;
+            height: 80px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header .logo img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: auto;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            opacity: 0.6;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(29, 19, 60, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .logo:hover .overlay {
+            opacity: 1;
+        }
+
+        .text {
+            color: white;
+            font-size: 40px;
+            text-align: center;
+            padding: 5px;
+            white-space: normal;
+            max-width: 90%;
+            cursor: context-menu;
+        }
+
+        .header .logout {
+            background-color: #f00;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .header .logout:hover {
+            background-color: #d00;
+        }
+
+        /* Layout */
+        .layout {
+            display: flex;
+            height: calc(100vh - 50px);
+        }
+
+        /* Menu */
+        .menu {
+            width: 250px;
+            border-right: 2px solid #ccc;
+            position: relative;
+            overflow-y: auto;
+            transition: width 0.3s ease;
+        }
+
+        .menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .menu ul li {
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .menu ul li:hover {
+            background-color: #007bff;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu ul li a i {
+            margin-right: 10px;
+        }
+
+        /* Menu Collapse */
+        .menu.collapse {
+            width: 70px;
+        }
+
+        .menu.collapse ul li a {
+            justify-content: center;
+        }
+
+        .menu.collapse ul li a i {
+            margin-right: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal-popup {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-profile-info img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-profile-info h2 {
+            color: black;
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .modal-profile-info p {
+            color: black;
+        }
+
+        .modal-button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* Responsivlik */
+        @media (max-width: 768px) {
+            .menu {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid #ccc;
+            }
+
+            .layout {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation for opening modal */
+        .modal-popup {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }

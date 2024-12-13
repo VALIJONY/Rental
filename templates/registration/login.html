@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,20 +7,96 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f7f9fc;
-        }
-        .login-container {
-            max-width: 400px;
-            margin: 80px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .login-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    background-color: #e9ecef; /* Orqa fon rang */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Shrift */
+    display: flex;
+    justify-content: center; /* Markazga joylash */
+    align-items: center; /* Vertikal markazga joylash */
+    height: 100vh; /* Butun ekran balandligi */
+    margin: 0; /* Marginlarni olib tashlash */
+}
+
+.login-container {
+    max-width: 400px; /* Maksimal kenglik */
+    margin: 20px; /* Marginlar */
+    padding: 20px; /* Ichki bo'shliqlar */
+    background-color: #ffffff; /* Fon rangi */
+    border-radius: 10px; /* Burchaklarni yumshatish */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soyalar */
+    transition: transform 0.3s ease; /* Animatsiya */
+}
+
+.login-container:hover {
+    transform: translateY(-5px); /* Hover holatida ko'tarilish */
+}
+
+.login-header {
+    text-align: center; /* Markazga joylash */
+    margin-bottom: 20px; /* Pastki bo'shliq */
+    color: #343a40; /* Matn rangi */
+    font-size: 24px; /* Matn o'lchami */
+    animation: fadeIn 0.5s; /* Animatsiya */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px); /* Yuqoriga siljitish */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* O'rnida qolish */
+    }
+}
+
+.form-group {
+    margin-bottom: 15px; /* Guruhlar orasidagi bo'shliqlar */
+}
+
+label {
+    display: block; /* Yozuvlar uchun to'liq joy */
+    margin-bottom: 5px; /* Pastki bo'shliq */
+    font-weight: bold; /* Qalin matn */
+    color: #495057; /* Yozuv rangi */
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%; /* Kenglikni 100% ga tenglashtirish */
+    padding: 10px; /* Ichki bo'shliqlar */
+    border: 1px solid #ced4da; /* Chegaralar */
+    border-radius: 5px; /* Burchaklarni yumshatish */
+    box-sizing: border-box; /* Chegaralarni hisobga olish */
+    font-size: 16px; /* Shrift o'lchami */
+    transition: border-color 0.3s; /* Chegara rangida animatsiya */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff; /* Fokus holati uchun rang */
+    outline: none; /* Fokusi olib tashlash */
+}
+
+.btn {
+    background-color: #007bff; /* Tugma rang */
+    color: white; /* Matn rangi */
+    border: none; /* Chegarani olib tashlash */
+    border-radius: 5px; /* Burchaklarni yumshatish */
+    padding: 10px; /* Ichki bo'shliqlar */
+    font-size: 16px; /* Shrift o'lchami */
+    cursor: pointer; /* Ko'rsatkich o'zgarishi */
+    transition: background-color 0.3s, transform 0.2s; /* Rang va ko'tarilish animatsiyasi */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Hover holati uchun rang */
+    transform: translateY(-2px); /* Hover holatida ko'tarilish */
+}
+
+.btn:active {
+    transform: translateY(1px); /* Tugmani bosganda pastga tushish */
+}
+
     </style>
 </head>
 <body>
@@ -31,6 +107,141 @@
             {{form.as_p}}
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
+    </div>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+body {
+    background: linear-gradient(to bottom right, rgba(0, 123, 255, 0.7), rgba(255, 255, 255, 0.8)), url('your-background-image.jpg') no-repeat center center fixed; /* Gradient va rasm */
+    background-size: cover; /* Rasmni qoplash */
+    font-family: 'Arial', sans-serif; /* Shrift */
+    display: flex;
+    justify-content: center; /* Markazga joylash */
+    align-items: center; /* Vertikal markazga joylash */
+    height: 100vh; /* Butun ekran balandligi */
+    margin: 0; /* Marginlarni olib tashlash */
+}
+
+.login-container {
+    max-width: 400px; /* Maksimal kenglik */
+    margin: 20px; /* Marginlar */
+    padding: 30px; /* Ichki bo'shliqlar */
+    background-color: rgba(255, 255, 255, 0.9); /* Orqa fon rangini shaffof qilib belgilash */
+    border-radius: 15px; /* Burchaklarni yumshatish */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Soyalar */
+    transition: transform 0.3s ease; /* Animatsiya */
+    animation: slideIn 0.5s ease; /* Kirish animatsiyasi */
+}
+
+/* Qolgan CSS qismi o'zgarmaydi */
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px); /* Yuqoridan kelish */
+        opacity: 0; /* Shaffoflik */
+    }
+    to {
+        transform: translateY(0); /* O'rnida qolish */
+        opacity: 1; /* To'liq ko'rinish */
+    }
+}
+
+.login-header {
+    text-align: center; /* Markazga joylash */
+    margin-bottom: 20px; /* Pastki bo'shliq */
+    color: #343a40; /* Matn rangi */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Guruhlar orasidagi bo'shliqlar */
+}
+
+label {
+    display: block; /* Yozuvlar uchun to'liq joy */
+    margin-bottom: 5px; /* Pastki bo'shliq */
+    font-weight: bold; /* Qalin matn */
+    color: #495057; /* Yozuv rangi */
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%; /* Kenglikni 100% ga tenglashtirish */
+    padding: 12px; /* Ichki bo'shliqlar */
+    border: 1px solid #ced4da; /* Chegaralar */
+    border-radius: 8px; /* Burchaklarni yumshatish */
+    box-sizing: border-box; /* Chegaralarni hisobga olish */
+    font-size: 16px; /* Shrift o'lchami */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Chegara rangida va soyada animatsiya */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff; /* Fokus holati uchun rang */
+    outline: none; /* Fokusi olib tashlash */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Fokusda soyalar */
+}
+
+.btn {
+    background-color: #007bff; /* Tugma rang */
+    color: white; /* Matn rangi */
+    border: none; /* Chegarani olib tashlash */
+    border-radius: 8px; /* Burchaklarni yumshatish */
+    padding: 12px; /* Ichki bo'shliqlar */
+    font-size: 16px; /* Shrift o'lchami */
+    cursor: pointer; /* Ko'rsatkich o'zgarishi */
+    transition: background-color 0.3s, transform 0.2s; /* Rang va ko'tarilish animatsiyasi */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Hover holati uchun rang */
+    transform: translateY(-2px); /* Hover holatida ko'tarilish */
+}
+
+.footer-text {
+    text-align: center; /* Markazga joylash */
+    margin-top: 20px; /* Yuqoridan bo'shliq */
+}
+
+.footer-text a {
+    color: #007bff; /* Havola rangi */
+    text-decoration: none; /* Chiziqlarni olib tashlash */
+}
+
+.footer-text a:hover {
+    text-decoration: underline; /* Hover holatida chiziq */
+}
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Rental Service Login</h2>
+            <p>Please enter your credentials</p>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                <input type="text" name="username" required="" id="id_username" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                <input type="password" name="password" required="" id="id_password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        <div class="footer-text">
+        </div>
     </div>
 </body>
 </html>

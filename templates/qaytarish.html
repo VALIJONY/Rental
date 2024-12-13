@@ -1,158 +1,268 @@
 {% extends 'home.html'%}
 {%block content%}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ</title>
     <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff;
-    margin: 0;
-    padding: 0;
-}
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
 
-.container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        form p {
+            margin-bottom: 15px;
+        }
 
-h1, h2 {
-    text-align: center;
-    color: #333;
-}
+        form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
 
-.message {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #e7f3fe;
-    color: #31708f;
-}
+        form select,
+        form input[type="text"],
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
 
-form {
-    margin-bottom: 30px;
-}
+        form button.btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: auto;
+            margin-top: 10px;
+        }
 
-form p {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
+        form button.btn:hover {
+            background-color: #218838;
+        }
 
-form label {
-    flex: 1;
-    margin-right: 10px;
-}
 
-form input, form select, form textarea {
-    flex: 2;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        h2 {
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+        }
 
-.btn:hover {
-    background-color: #0056b3;
-}
+        thead {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
+        thead td {
+            padding: 12px 15px;
+        }
 
-.data-table thead {
-    background-color: #007bff;
-    color: #fff;
-}
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-.data-table th, .data-table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-}
+        tbody tr {
+            transition: background-color 0.3s ease;
+        }
 
-.data-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+        tbody tr:hover {
+            background-color: #ddd;
+        }
 
+        tbody td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        td a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        table thead tr {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
+            color: white;
+        }
+
+        table thead tr td {
+            padding: 5px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #fff;
+        }
+        table tbody tr {
+            background-color: #f9f9f9;
+            color: #000;
+        }
+
+        table tbody tr:hover {
+            background-color: #ddd;
+        }
+
+        table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+
+        /* Ikona dizayni */
+        .edit-icon {
+            fill: none;
+            stroke: #007bff;
+            transition: stroke 0.3s ease;
+        }
+
+        .edit-icon:hover {
+            stroke: #ff5733;
+            cursor: pointer;
+        }
+
+        .add {
+            display: flex;
+            justify-content: end;
+            margin-bottom: 10px;
+        }
+
+        .add a {
+            padding: 12px 25px;
+            text-decoration: none;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s;
+
+        }
+
+        .add a:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .edit-icon,
+        .bi-trash3-fill {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            transition: fill 0.3s;
+        }
+
+        .edit-icon:hover,
+        .bi-trash3-fill:hover {
+            fill: #f00;
+        }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Форма возврата</h1>
-        {% if message %}
-            <div class="message">{{ message }}</div>
-        {% endif %}
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn">СОХРАНЯТЬ</button>
-        </form>
-        <h2>Информация</h2>
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>IД</th>
-                    <th>Дата возврата</th>
-                    <th>Количество</th>
-                    <th>Дефект</th>
-                    <th>Сумма</th>
-                    <th>Аренда</th>
-                    <th>Загрузить</th>
-                    <th>Редактировать</th>
-                    <th>Удалить</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in malumotlar %}
-                    <tr>
-                        <td>{{ i.id }}</td>
-                        <td>{{ i.qaytarilgan_sana }}</td>
-                        <td>{{ i.miqdori }}</td>
-                        <td>{{ i.nosozlik }}</td>
-                        <td>{{ i.summa }}</td>
-                        <td>{{ i.prokat }}</td>
-                        <td><a href="{% url 'qaytarish_download' i.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+    {% if request.path == '/qaytarish/' %}
+    <div class="add">
+        <a href="{%url 'qaytarishform' %}">Qaytarilganlarga qo`shish</a>
+    </div>
+    {%endif%}
+    {% if request.path == '/qaytarish/form/' %}
+    <div class="add">
+        <a href="{%url 'qaytarish' %}">Orqaga qaytish</a>
+    </div>
+    {%endif%}
+
+    {% if request.path == '/qaytarish/form/' %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">СОХРАНЯТЬ</button>
+    </form>
+    {%endif%}
+
+
+    <h2>Qaytarlarilgan qurilamalar</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Qaytarish sanasi</th>
+                <th>Miqdori</th>
+                <th>Defekt</th>
+                <th>Summa</th>
+                <th>Pirokat</th>
+                <th>Yuklash</th>
+                <th>Tahrirlash</th>
+                <th>O'chirish</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            {% for i in malumotlar %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.qaytarilgan_sana }}</td>
+                <td>{{ i.miqdori }}</td>
+                <td>{{ i.nosozlik }}</td>
+                <td>{{ i.summa }}</td>
+                <td>{{ i.prokat }}</td>
+                <td><a href="{% url 'qaytarish_download' i.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="16"
                             height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
                             <path
                                 d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
                             <path
                                 d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
                         </svg></a></td>
-                        <td><a href="{% url 'qaytarish_edit' i.pk%}"><svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            width="24" height="24">
+                <td><a href="{% url 'qaytarish_edit' i.pk%}"><svg class="edit-icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" width="24" height="24">
                             <path d="M12 20h9" stroke="#000" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" />
                             <path d="M16.5 3.5l4 4-12 12H4.5V13.5l12-12z" stroke="#000" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg></a></td>
-                <td><a href="{% url 'qaytarish_delete' i.pk%}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                <td><a href="{% url 'qaytarish_delete' i.pk%}"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                             <path
                                 d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
                         </svg></a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     {%endblock content%}
 </body>
+
 </html>

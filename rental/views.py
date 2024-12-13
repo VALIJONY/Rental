@@ -6,11 +6,20 @@ from django.urls import reverse_lazy
 from django.views.generic import View,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.hashers import make_password
-
 from docx import Document
-
+from django.views import View
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+from .models import Prokat
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import IshchiForm, QurilmaForm, TamirlashForm, UserLoginForm,MijozForm,ProkotForm,QaytarishForm
+from .forms import IshchiForm, QurilmaForm, TamirlashForm, UserLoginForm, MijozForm, ProkotForm, QaytarishForm, \
+    CustomUserChangeForm
+from django.db.models import Count
+import openpyxl
+from openpyxl.styles import Alignment, Font, Border, Side
 
 from .models import CustomUser, Mijozlar, Qaytarish,Qurilmalar,Prokat, Tamirlash
 
@@ -34,9 +43,38 @@ class LogoutView(LoginRequiredMixin,View):
              return redirect('login')
 class HomeView(LoginRequiredMixin,View):
     def get(self,request):
-        return render(request,'home.html')
+        mijozlar_soni=Mijozlar.objects.count()
+        jami_qurilmalar = Qurilmalar.objects.count()
+        faol_shartnomalar = Prokat.objects.filter(qaytarish__isnull=True).count()
+        qaytarilgan_soni = Qaytarish.objects.count()
+        tamirlashdagi_qurilmalar = Tamirlash.objects.count()
+
+        # context orqali ma'lumotlarni templatega uzatamiz
+        context = {
+            'mijozlar_soni':mijozlar_soni,
+            'jami_qurilmalar': jami_qurilmalar,
+            'faol_shartnomalar': faol_shartnomalar,
+            'qaytarilgan_soni': qaytarilgan_soni,
+            'tamirlashdagi_qurilmalar': tamirlashdagi_qurilmalar,
+        }
+        return render(request,'home.html',context)
+
+
+from django.contrib import messages
+
+class EditProfileView(UpdateView):
+    model = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = 'edit_profile.html'
+    success_url = reverse_lazy('home')
 
 class MijozView(LoginRequiredMixin,View):
+    def get(self,request):
+        mijozlar=Mijozlar.objects.all()
+        return render(request,'mijoz_qushish.html',{'mijoz':mijozlar})
+    
+
+class MijozAddView(LoginRequiredMixin,View):
     def get(self,request):
         mijozlar=Mijozlar.objects.all()
         mijoz=MijozForm()
@@ -46,10 +84,15 @@ class MijozView(LoginRequiredMixin,View):
         mijoz=MijozForm(data=request.POST)
         if mijoz.is_valid():
             mijoz.save()
-            return render(request, 'qurilmalar.html')
+            return redirect('mijoz')
         else:
             return redirect('mijoz',{'message':'Malumot saqlanmadi','mijoz':mijozlar})
-        
+
+class MijozDeleteView(LoginRequiredMixin,View):
+    def get(self,request,pk):
+        mijoz=Mijozlar.objects.get(id=pk)
+        mijoz.delete()
+        return redirect('mijoz')
 class MijozUpdateView(LoginRequiredMixin,UpdateView):
     model = Mijozlar
     form_class = MijozForm
@@ -87,6 +130,11 @@ class QurilmaDeleteView(View):
         qurilma = Qurilmalar.objects.get(id=pk)
         qurilma.delete()
         return redirect('qurilmalar')
+
+class ShartnomaAllView(LoginRequiredMixin,View):
+    def get(self,request):
+        shartnomalar = Prokat.objects.all()
+        return render(request, 'shartnoma.html', {'shartnomalar': shartnomalar})
     
 class ShartnomaView(View):
     def get(self, request):
@@ -100,6 +148,7 @@ class ShartnomaView(View):
         if shartnoma.is_valid():
             shartnoma.save()
             message = 'Shartnoma muaffaqiyatli tuzildi'
+            return redirect("prokatall")
         else:
             message = "Shartnoma saqlanmadi"
         
@@ -110,21 +159,15 @@ class ShartnomaEditView(UpdateView):
     form_class=ProkotForm
     template_name='edit_prokot.html'
     success_url=reverse_lazy('prokot')
+    
 class ShartnomaDeleteView(LoginRequiredMixin,View):
      def get(self, request, pk):
         shartnoma = Prokat.objects.get(id=pk)
         shartnoma.delete()
-        return redirect('prokot')
+        return redirect('prokatall')
     
     
-from django.http import HttpResponse
-from django.views import View
-from docx import Document
-from docx.shared import Pt
-from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-from docx.oxml.ns import qn
-from docx.oxml import OxmlElement
-from .models import Prokat
+
 
 class ShartnomaDownloadView(View):
     def get(self, request, pk):
@@ -205,52 +248,113 @@ class ShartnomaDownloadView(View):
 
 
 
+
+class ExportAllContractsExcelView(View):
+    def get(self, request, *args, **kwargs):
+        # Prokat modelidan barcha yozuvlarni olish
+        contracts = Prokat.objects.all()
+
+        # Excel fayl yaratish
+        workbook = openpyxl.Workbook()
+        sheet = workbook.active
+        sheet.title = "Barcha Shartnomalar"
+
+        # Chegaralar, shriftlar va joylashuv
+        bold_font = Font(bold=True, size=12)
+        regular_font = Font(size=12)
+        thin_border = Border(
+            left=Side(style='thin'),
+            right=Side(style='thin'),
+            top=Side(style='thin'),
+            bottom=Side(style='thin')
+        )
+        alignment = Alignment(horizontal="center", vertical="center")
+
+        # Sarlavhalar
+        headers = [
+            "ID", "MIJOZ ISMI","MIJOZ FAMILIYASI", "USKUNA", "Miqdori", "MASTER",
+            "BERILGAN SANA", "QAYTARISH SANASI",
+            "Kunlar soni", "Montaj",
+            "Xizmat narxi", "Avans",
+            "Kunlik narxi", "Umumiy narx"
+        ]
+
+        # Sarlavhalarni yozish
+        for col_num, header in enumerate(headers, 1):
+            cell = sheet.cell(row=1, column=col_num)
+            cell.value = header
+            cell.font = bold_font
+            cell.border = thin_border
+            cell.alignment = alignment
+
+        # Ma'lumotlarni yozish
+        for row_num, contract in enumerate(contracts, start=2):
+            row_data = [
+                contract.id,
+                contract.mijoz.ism,
+                contract.mijoz.familiya,
+                contract.qurilma.nomi,
+                contract.miqdori,
+                contract.ishchi.ism,
+                contract.berilgan_sanasi.strftime("%Y-%m-%d") if contract.berilgan_sanasi else "—",
+                contract.qaytish_sanasi.strftime("%Y-%m-%d") if contract.qaytish_sanasi else "—",
+                contract.kunlar_soni,
+                "Ha" if contract.montaj else "Yo'q",
+                contract.xizmat_narxi,
+                contract.avans,
+                contract.kunlik_narxi,
+                contract.umumiy_narx
+            ]
+            for col_num, value in enumerate(row_data, 1):
+                cell = sheet.cell(row=row_num, column=col_num)
+                cell.value = value
+                cell.font = regular_font
+                cell.border = thin_border
+                cell.alignment = alignment
+
+        # Ustun kengliklarini sozlash
+        column_widths = [5, 20, 25, 10, 20, 15, 15, 12, 10, 15, 15, 15, 15]
+        for i, width in enumerate(column_widths, 1):
+            sheet.column_dimensions[openpyxl.utils.get_column_letter(i)].width = width
+
+        # Excel faylni javobga biriktirish
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename="barcha_shartnomalar.xlsx"'
+        workbook.save(response)
+        return response
+
+
     
-# class ShartnomaDownloadView(View):
-#     def get(self, request, pk):
-#         shartnoma = Prokat.objects.get(id=pk)
-#         document = Document()
-
-#         document.add_heading('Shartnoma', 0)
-
-#         document.add_paragraph(f'Клиент: {shartnoma.mijoz.ism}')
-#         document.add_paragraph(f'Устройство:  {shartnoma.qurilma.nomi}')
-#         document.add_paragraph(f'Количество: {shartnoma.miqdori}')
-#         document.add_paragraph(f'Работник:  {shartnoma.ishchi.ism}')
-#         document.add_paragraph(f'Дата выдачи: {shartnoma.berilgan_sanasi}')
-#         document.add_paragraph(f'Дата возврата: {shartnoma.qaytish_sanasi}')
-#         document.add_paragraph(f'Количество дней: {shartnoma.kunlar_soni}')
-#         document.add_paragraph(f'Монтаж  {shartnoma.montaj}')
-#         document.add_paragraph(f'Цена услуги: {shartnoma.xizmat_narxi} сум')
-#         document.add_paragraph(f'Залок: {shartnoma.avans} сум')
-#         document.add_paragraph(f'Ежедневная цена: {shartnoma.kunlik_narxi} сум')
-#         document.add_paragraph(f'Общая цена: {shartnoma.umumiy_narx} сум')
 
 
-#         file_name = f'shartnoma_{shartnoma.id}.docx'
+class QaytarishView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = QaytarishForm()
+        malumot = Qaytarish.objects.all()
+        malumot_id = Qaytarish.objects.values_list('prokat', flat=True)
+        form.fields['prokat'].queryset = Prokat.objects.exclude(id__in=malumot_id)
+        return render(request, 'qaytarish.html', {'form': form, 'malumotlar': malumot})
 
-#         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-#         response['Content-Disposition'] = f'attachment; filename={file_name}'
-        
-#         document.save(response)
-        
-#         return response
-    
-class QaytarishView(LoginRequiredMixin,View):
-    def get(self,request):
-        form=QaytarishForm()
-        malumot=Qaytarish.objects.all()
-        return render(request,'qaytarish.html',{'form':form,'malumotlar':malumot})
-    def post(self,request):
-        form=QaytarishForm(data=request.POST)
-        malumot=Qaytarish.objects.all()
+    def post(self, request):
+        malumot = Qaytarish.objects.all()
+        form = QaytarishForm(data=request.POST)
+        malumot_id = Qaytarish.objects.values_list('prokat', flat=True)
+        form.fields['prokat'].queryset = Prokat.objects.exclude(id__in=malumot_id) 
         if form.is_valid():
             form.save()
             return redirect('qaytarish')
         else:
-            message='Saqlanmadi'
-            return redirect('qaytarish',{'message':message,'malumotlar':malumot})
+            message = 'Saqlanmadi: ' + str(form.errors) 
+            return render(request, 'qaytarish.html', {'form': form, 'malumotlar': malumot, 'message': message})
 
+
+class QaytarishAllView(LoginRequiredMixin,View):
+    def get(self,request):
+            malumot=Qaytarish.objects.all()
+            return render(request,'qaytarish.html',{'malumotlar':malumot})
+        
 class QaytarishDeleteView(LoginRequiredMixin,View):
     def get(self,request,pk):
         malumot=Qaytarish.objects.get(id=pk)
@@ -264,14 +368,7 @@ class QaytarishEditView(LoginRequiredMixin,UpdateView):
     
     
     
-from django.http import HttpResponse
-from django.views import View
-from docx import Document
-from docx.shared import Pt
-from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-from docx.oxml.ns import qn
-from docx.oxml import OxmlElement
-from .models import Qaytarish
+
 
 class QaytarishDocxDownloadView(View):
     def get(self, request, pk):
@@ -358,21 +455,21 @@ class TamirlashView(LoginRequiredMixin, View):
         tamirlash = Tamirlash.objects.all()
         return render(request, 'tamirlash.html', {'tamirlash': tamirlash})
 
-class TamirlashQoshView(LoginRequiredMixin,View):
+class TamirlashQoshView(View):
     def get(self, request):
         tamirlash_form = TamirlashForm()
         tamirlash = Tamirlash.objects.all()
-        return render(request, 'tamirlash_form.html', {'form': tamirlash_form, 'tamirlash': tamirlash})
-
+        tamirlash_qurilmalari = Tamirlash.objects.values_list('qurilma_id', flat=True)
+        tamirlash_form.fields['qurilma'].queryset = Qurilmalar.objects.exclude(id__in=tamirlash_qurilmalari)
+        return render(request, 'tamirlash.html', {'form': tamirlash_form,'tamirlash': tamirlash})
+        
     def post(self, request):
-        tamirlash_form = TamirlashForm(data=request.POST)
+        tamirlash_form = TamirlashForm(request.POST)
         tamirlash = Tamirlash.objects.all()
         if tamirlash_form.is_valid():
-            tamirlash_form.save()
-            return redirect('tamirlash')
-        else:
-            return render(request, 'tamirlash_form.html', {'form': tamirlash_form, 'tamirlash': tamirlash, 'message': 'tamirlash saqlanmadi'})
-
+            qurilma = tamirlash_form.save()
+            return redirect('tamirlash')  
+        return render(request, 'tamirlash.html', {'form': tamirlash_form,'tamirlash': tamirlash})
 class TamirlashEditView(LoginRequiredMixin, UpdateView):
     model = Tamirlash
     form_class = TamirlashForm
@@ -381,8 +478,8 @@ class TamirlashEditView(LoginRequiredMixin, UpdateView):
 
 
 class TamirlashDeleteView(LoginRequiredMixin, View):
-    def get(self, request, id):
-        tamirlash = Tamirlash.objects.get(id=id)
+    def get(self, request, pk):
+        tamirlash = Tamirlash.objects.get(id=pk)
         tamirlash.delete()
         return redirect('tamirlash')
 
@@ -391,11 +488,18 @@ class IshchiView(LoginRequiredMixin, View):
         ishchi = CustomUser.objects.all()
         return render(request, 'ishchi.html', {'ishchi': ishchi})
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import IshchiForm
+from .models import CustomUser
+
 class IshchiQoshishView(LoginRequiredMixin, View):
     def get(self, request):
         ishchi_form = IshchiForm()
         ishchilar = CustomUser.objects.all()
-        return render(request, 'ishchi_form.html', {'form': ishchi_form, 'ishchilar': ishchilar})
+        return render(request, 'ishchi.html', {'form': ishchi_form, 'ishchi': ishchilar})
 
     def post(self, request):
         ishchi_form = IshchiForm(data=request.POST)
@@ -404,9 +508,9 @@ class IshchiQoshishView(LoginRequiredMixin, View):
             new_ishchi = ishchi_form.save(commit=False)
             new_ishchi.password = make_password(ishchi_form.cleaned_data['password'])
             new_ishchi.save()
-            return redirect('ishchilar')
+            return redirect('ishchilar')  
         else:
-            return render(request, 'ishchi_form.html', {'form': ishchi_form, 'ishchilar': ishchilar, 'message': 'Ishchi saqlanmadi'})
+            return render(request, 'ishchi.html', {'form': ishchi_form, 'ishchi': ishchilar, 'message': 'Ishchi saqlanmadi'})
 
 class IshchiEditView(LoginRequiredMixin, UpdateView):
     model = CustomUser
@@ -423,5 +527,3 @@ class IshchiDeleteView(LoginRequiredMixin, View):
         ischi = CustomUser.objects.get(id=id)
         ischi.delete()
         return redirect('ishchilar')
-    
-

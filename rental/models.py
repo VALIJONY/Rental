@@ -18,9 +18,10 @@ class Qurilmalar(models.Model):
 
 
     def __str__(self):
-        return self.nomi
+        return f"{self.nomi}"
 
 class CustomUser(AbstractUser):
+    rasm=models.ImageField(default='static/img/default.jpg')
     ism = models.CharField(max_length=255)
     familiya = models.CharField(max_length=255)
     lavozimi = models.CharField(max_length=255)
@@ -35,7 +36,7 @@ class CustomUser(AbstractUser):
 class Mijozlar(models.Model):
     ism = models.CharField(max_length=255)
     familiya = models.CharField(max_length=255)
-    username = models.CharField(max_length=255)
+    username = models.CharField(max_length=255,unique=True)
     telefon = models.CharField(max_length=20)
     jinsi = models.CharField(max_length=10)
     pasport = models.CharField(max_length=15)
@@ -59,8 +60,7 @@ class Prokat(models.Model):
     kunlik_narxi =  models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):
-        return str(self.qurilma)
-
+        return f"{self.mijoz} - {self.qurilma}"
 class Qaytarish(models.Model):
     qaytarilgan_sana = models.DateField(default=timezone.now)
     miqdori = models.IntegerField()

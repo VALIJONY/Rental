@@ -1,143 +1,426 @@
+
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
+{% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-Tj6oa6YmsR9S4QzjnjlK9p5ykihLiWooQvLzFksbHr+epVOLwq9TmW1N8MZmFtjmk0aR8lIa4p5lpXw/1uSyKg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
+    <title>Admin</title>
     <style>
-        /* Your existing CSS styles */
-        .layout {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-        }
-
-        .second {
-            flex-basis: 74%;
-            border: 2px solid black;
-            padding: 10px;
-            position: sticky;
-        }
-
-        .first {
-            flex-basis: 25%;
-            border: 2px solid black;
-            position: sticky;
-        }
-
+        /* Umumiy o'rnatmalar */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f7f9fc;
         }
 
-        .title {
-            background-color: #333;
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
             color: #fff;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px 20px;
         }
 
+        .header .profile-info {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .header img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .header .logo {
+            width: 300px;
+            height: 80px;
+            position: relative;
+        }
+
+        .header .logo div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: auto;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 3em;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+
+        }
+
+        .header .logout {
+            background-color: #f00;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .header .logout:hover {
+            background-color: #d00;
+        }
+
+        /* Layout */
         .layout {
             display: flex;
+            height: calc(100vh - 50px);
         }
 
-        .first {
-            width: 200px;
-            background-color: #f4f4f4;
+        /* Menu */
+        .menu {
+            width: 250px;
+            border-right: 2px solid #ccc;
+            position: relative;
+            overflow-y: auto;
+            transition: width 0.3s ease;
         }
 
-        .first ul {
+        .menu ul {
             list-style-type: none;
             padding: 0;
         }
 
-        .first ul li {
-            padding: 10px;
+        .menu ul li {
+            padding: 15px;
             border-bottom: 1px solid #ccc;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
-        .first ul li:hover {
-            background-color: #ddd;
+        .menu ul li:hover {
+            background-color: #007bff;
+            color: #fff;
+            transform: scale(1.05);
         }
 
-        .first ul li a {
+        .menu ul li a {
             text-decoration: none;
             color: #333;
+            display: flex;
+            align-items: center;
         }
 
-        .first ul li a:hover {
-            color: #000;
-        }
-
-        .second {
+        .main-content {
             flex: 1;
             padding: 20px;
             background-color: #fff;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease;
         }
 
-        a[href="{% url 'logout' %}"] {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
         }
 
-        a[href="{% url 'logout' %}"]:hover {
-            background-color: #555;
+        .modal-popup {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
         }
 
-        /* Additional styles for icons */
-        .first ul li a i {
-            margin-right: 10px;
+        .modal-profile-info img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* Responsivlik */
+        @media (max-width: 768px) {
+            .menu {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid #ccc;
+            }
+
+            .layout {
+                flex-direction: column;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .dashboard {
+            padding: 20px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+        }
+
+        .stat-item {
+            flex: 1;
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
-    <title>Админ</title>
 </head>
+
 <body>
-    <h1 class="title"> Добро пожаловать {{request.user.username}}</h1>
-    <a href="{% url 'logout'%}">ВЫЙТИ <i class="fas fa-sign-out-alt"></i></a> <!-- Font Awesome icon for logout -->
-    <main class="layout">
-        <section class="first">
+    <script src="https://kit.fontawesome.com/0b17d89bae.js" crossorigin="anonymous"></script>
+
+    <div class="header">
+        <div class="profile-info" onclick="openModal()">
+            <img src="{{ request.user.rasm.url }}" alt="Profile Picture" class="profile-pic">
+            <div class="profile-details">
+                <span>{{ request.user.ism }} {{ request.user.familiya }}</span><br>
+                <span>{{ request.user.lavozimi }}</span>
+            </div>
+        </div>
+
+
+        <div class="modal-overlay" id="profileOverlay" style="display: none; color:black;">
+            <div class="modal-popup">
+                <div class="modal-profile-info">
+                    <img src="{{ request.user.rasm.url }}" alt="Profile Picture" class="modal-profile-pic">
+                    <h2>{{ request.user.ism }} {{ request.user.familiya }}</h2>
+                    <p class="modal-username">Username: {{ request.user.username }}</p>
+                    <p class="modal-lavozimi">Lavozimi: {{ request.user.lavozimi }}</p>
+                </div>
+                <div class="modal-button-group">
+                    <button onclick="window.location.href='{% url 'edit_profile' request.user.id %}'"
+                        class="btn btn-primary">Редактировать</button>
+                    <button onclick="closeModal()" class="btn btn-secondary">Закрыть</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="logo">
+            <div class="text"><a href="{% url 'home' %}" style="text-decoration: none;">RENTALUZ</a></div>
+        </div>
+
+        <div>
+            <!-- <span class="notification-icon">
+                <i class="fas fa-bell"></i>
+                <span class="notification-count">3</span>
+            </span> -->
+            <button class="logout" onclick="window.location.href='{% url 'logout' %}'">CHIQISH</button>
+        </div>
+    </div>
+
+    <div class="layout">
+        <nav class="menu" id="sidebar">
             {% if request.user.lavozimi == "Admin"%}
             <ul>
-                <li><a href="{% url 'mijoz'%}"><i class="fas fa-user-plus"></i> Добавить клиента</a></li> <!-- Font Awesome icon for adding user -->
-                <li><a href="{% url 'qurilmalar'%}"><i class="fas fa-laptop"></i> Добавить устройство</a></li> <!-- Font Awesome icon for adding device -->
-                <li><a href="{% url 'ishchilar'%}"><i class="fas fa-user-plus"></i> Добавить сотрудник</a></li>
-                <li><a href="{% url 'tamirlash'%}"><i class="fas fa-tools"></i> Ремонт</a></li> <!-- Font Awesome icon for repair -->
-                <li><a href="{% url 'prokot'%}"><i class="fas fa-file-contract"></i> Заключение договора</a></li> <!-- Font Awesome icon for contract -->
-                <li><a href="{% url 'qaytarish'%}"><i class="fas fa-undo"></i> Возврат</a></li> <!-- Font Awesome icon for return -->
+                <li><a href="{% url 'mijoz' %}" style="gap:0.5rem"><i class="fas fa-user-plus" ></i>Mijoz qo'shish</a></li>
+                <li><a href="{% url 'qurilmalar' %}" style="gap:0.5rem"><i class="fas fa-laptop"></i> Qurilma qo'shish</a></li>
+                <li><a href="{% url 'ishchilar' %}" style="gap:0.5rem"><i class="fas fa-user-plus"></i> Xodim qo'shish</a></li>
+                <li><a href="{% url 'tamirlash' %}" style="gap:0.5rem"><i class="fas fa-tools"></i> Ta'mirlash</a></li>
+                <li><a href="{% url 'prokatall' %}" style="gap:0.5rem"><i class="fas fa-file-contract"></i> Shartnoma tuzish</a></li>
+                <li><a href="{% url 'qaytarish' %}" style="gap:0.5rem"><i class="fas fa-undo"></i> Qaytarish</a></li>
             </ul>
-            {%endif%}
-            {% if request.user.lavozimi == "Direktor"%}
-            <ul>
-                <li><a href="{% url 'ishchilar'%}"><i class="fas fa-user-plus"></i> Добавить сотрудник</a></li>
-                <li><a href="{% url 'prokot'%}"><i class="fas fa-file-contract"></i> Заключение договора</a></li>
-                <li><a href="{% url 'qaytarish'%}"><i class="fas fa-undo"></i> Возврат</a></li>
-            </ul>
-            {%endif%}
-            {% if request.user.lavozimi == "Master"%}
-            <ul>
-                <li><a href="{% url 'ishchilar'%}"><i class="fas fa-user-plus"></i> Добавить сотрудник</a></li>
-                <li><a href="{% url 'tamirlash'%}"><i class="fas fa-tools"></i> Ремонт</a></li>
-            </ul>
-            {%endif%}
-        </section>
-        <section class="second">
+            {% endif %}
+        </nav>
+
+        <main class="main-content">
+
             {% block content %}
-            {% endblock content %}
-        </section>
-    </main>
-    <!-- Font Awesome Script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" integrity="sha512-Vy3u4qE5LVPR9p0vVfGxgrNT0gF+QlMA53q9zPKjHw4Rl6TIbEXWfW/7qlaXVslwL2oYtD1FRD7b06NYqD8Lxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            {%if request.path == '/home/' %}
+            <!-- DASHBOARD -->
+            <div class="dashboard">
+                <h2>Dashboard</h2>
+                <div class="stats">
+                    <div class="stat-item">
+                        <i class="fas fa-users fa-2x"></i>
+                        <div class="stat-info">
+                            <h3>{{ mijozlar_soni }}</h3>
+                            <p>Mijozlar soni</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-tools fa-2x"></i>
+                        <div class="stat-info">
+                            <h3>{{ tamirlashdagi_qurilmalar }}</h3>
+                            <p>Ta'mirlanayotgan qurilmalar</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-file-contract fa-2x"></i>
+                        <div class="stat-info">
+                            <h3>{{ faol_shartnomalar }}</h3>
+                            <p>Faol shartnomalar</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-undo fa-2x"></i>
+                        <div class="stat-info">
+                            <h3>{{ qaytarilgan_soni }}</h3>
+                            <p>Qaytarilgan qurilmalar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div id="chart" class="chart-container">
+            </div> -->
+
+
+            {%endif%}
+
+            {% endblock %}
+        </main>
+    </div>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script>
+        // Grafik uchun kod
+        Plotly.newPlot('chart', [{
+            x: ['Mijozlar', 'Ta’mir', 'Shartnomalar', 'Qaytarilganlar'],
+            y: [{{ mijozlar_soni }}, {{ tamirlashdagi_qurilmalar }}, {{ faol_shartnomalar }}, {{ qaytarilgan_soni }}],
+            type: 'bar'
+}], {
+                title: 'Umumiy statistik ko‘rsatkichlar'
+            });
+
+    </script>
+
+
+
+
+    <script>
+        function openModal() {
+            document.getElementById('profileOverlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('profileOverlay').style.display = 'none';
+        }
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Kalendar uchun
+            $("#id_berilgan_sanasi").datepicker({
+                dateFormat: "yy-mm-dd",
+                onSelect: function () {
+                    calculateDays();
+                }
+            });
+
+            $("#id_qaytish_sanasi").datepicker({
+                dateFormat: "yy-mm-dd",
+                onSelect: function () {
+                    calculateDays();
+                }
+            });
+
+            // Kunlar sonini hisoblash va umumiy narxni hisoblash
+            function calculateDays() {
+                const berilganSanasi = new Date($("#id_berilgan_sanasi").val());
+                const qaytishSanasi = new Date($("#id_qaytish_sanasi").val());
+                const timeDifference = qaytishSanasi - berilganSanasi;
+                const daysDifference = timeDifference / (1000 * 3600 * 24);
+                if (!isNaN(daysDifference) && daysDifference >= 0) {
+                    $("#id_kunlar_soni").val(daysDifference);
+                    calculateTotal();
+                } else {
+                    $("#id_kunlar_soni").val(0);
+                }
+            }
+
+            function calculateTotal() {
+                const dailyPrice = parseFloat($("#id_kunlik_narxi").val()) || 0;
+                const days = parseFloat($("#id_kunlar_soni").val()) || 0;
+                const quantity = parseFloat($("#id_miqdori").val()) || 0;
+                const servicePrice = parseFloat($("#id_xizmat_narxi").val()) || 0;
+
+                // Umumiy narxni hisoblash
+                const total = (dailyPrice * days * quantity) + servicePrice;
+                $("#id_umumiy_narx").val(total.toFixed(2));
+            }
+
+            // Montaj tugmasi belgilanganda xizmat narxini ochish
+            $("#id_montaj").change(function () {
+                if ($(this).is(":checked")) {
+                    $("#id_xizmat_narxi").prop("disabled", false);
+                } else {
+                    $("#id_xizmat_narxi").val('').prop("disabled", true);
+                    calculateTotal(); // Xizmat narxi o'chirilganda umumiy narxni qayta hisoblash
+                }
+            });
+
+            // Xizmat narxi, kunlik narx va miqdor o'zgartirganda umumiy narxni qayta hisoblash
+            $("#id_kunlik_narxi, #id_xizmat_narxi, #id_miqdori").on('input', calculateTotal);
+        });
+    </script>
+
+
 </body>
+
 </html>
