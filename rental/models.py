@@ -60,7 +60,7 @@ class Prokat(models.Model):
     kunlik_narxi =  models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):
-        return f"{self.mijoz} - {self.qurilma}"
+        return f"{self.mijoz} - {self.qurilma.id}"
 class Qaytarish(models.Model):
     qaytarilgan_sana = models.DateField(default=timezone.now)
     miqdori = models.IntegerField()
