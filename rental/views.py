@@ -20,10 +20,16 @@ from .forms import IshchiForm, QurilmaForm, TamirlashForm, UserLoginForm, MijozF
 from django.db.models import Count
 import openpyxl
 from openpyxl.styles import Alignment, Font, Border, Side
-
 from .models import CustomUser, Mijozlar, Qaytarish,Qurilmalar,Prokat, Tamirlash
 
-class Loginview(View):
+
+class ProfileEditView(UpdateView):
+    model = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = 'edit_profile.html'
+    success_url = reverse_lazy('home')
+
+class Loginview(LoginRequiredMixin,View):
     def get(self,request):
         userlogin=UserLoginForm()
         return render(request,'registration/login.html',{'form':userlogin})
@@ -62,7 +68,7 @@ class HomeView(LoginRequiredMixin,View):
 
 from django.contrib import messages
 
-class EditProfileView(UpdateView):
+class EditProfileView(LoginRequiredMixin,UpdateView):
     model = CustomUser
     form_class = CustomUserChangeForm
     template_name = 'edit_profile.html'
@@ -119,13 +125,13 @@ class QurilmaQushView(LoginRequiredMixin,View):
         else:
             return render(request, 'qurilmalar.html', {'form': qurilma_form, 'qurilmalar': qurilmalar, 'message': 'Qurilma saqlanmadi'})
 
-class QurilmaUpdateView(UpdateView):
+class QurilmaUpdateView(LoginRequiredMixin,UpdateView):
     model = Qurilmalar
     form_class=QurilmaForm
     template_name = 'qurilma_edit.html'
     success_url = reverse_lazy('qurilmalar')
 
-class QurilmaDeleteView(View):
+class QurilmaDeleteView(LoginRequiredMixin,View):
     def get(self, request, pk):
         qurilma = Qurilmalar.objects.get(id=pk)
         qurilma.delete()
@@ -136,7 +142,7 @@ class ShartnomaAllView(LoginRequiredMixin,View):
         shartnomalar = Prokat.objects.all()
         return render(request, 'shartnoma.html', {'shartnomalar': shartnomalar})
     
-class ShartnomaView(View):
+class ShartnomaView(LoginRequiredMixin,View):
     def get(self, request):
         shartnoma = ProkotForm()
         shartnomalar = Prokat.objects.all()
@@ -154,7 +160,7 @@ class ShartnomaView(View):
         
         return render(request, 'shartnoma.html', {'form': shartnoma, 'shartnomalar': shartnomalar, 'message': message})
     
-class ShartnomaEditView(UpdateView):
+class ShartnomaEditView(LoginRequiredMixin,UpdateView):
     model=Prokat
     form_class=ProkotForm
     template_name='edit_prokot.html'
@@ -169,7 +175,7 @@ class ShartnomaDeleteView(LoginRequiredMixin,View):
     
 
 
-class ShartnomaDownloadView(View):
+class ShartnomaDownloadView(LoginRequiredMixin,View):
     def get(self, request, pk):
         shartnoma = Prokat.objects.get(id=pk)
         document = Document()
@@ -249,7 +255,7 @@ class ShartnomaDownloadView(View):
 
 
 
-class ExportAllContractsExcelView(View):
+class ExportAllContractsExcelView(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
         # Prokat modelidan barcha yozuvlarni olish
         contracts = Prokat.objects.all()
@@ -370,7 +376,7 @@ class QaytarishEditView(LoginRequiredMixin,UpdateView):
     
 
 
-class QaytarishDocxDownloadView(View):
+class QaytarishDocxDownloadView(LoginRequiredMixin,View):
     def get(self, request, pk):
         qaytarish = Qaytarish.objects.get(id=pk)
         document = Document()
@@ -455,7 +461,7 @@ class TamirlashView(LoginRequiredMixin, View):
         tamirlash = Tamirlash.objects.all()
         return render(request, 'tamirlash.html', {'tamirlash': tamirlash})
 
-class TamirlashQoshView(View):
+class TamirlashQoshView(LoginRequiredMixin,View):
     def get(self, request):
         tamirlash_form = TamirlashForm()
         tamirlash = Tamirlash.objects.all()

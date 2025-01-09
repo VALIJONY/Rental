@@ -1,272 +1,97 @@
 {% extends 'home.html' %}
 
 {% block content %}
-
 <html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ</title>
-    <style>
-        /* Forma dizayni */
-        form {
-
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 600px;
-            margin: auto;
-            margin-bottom: 10px;
-        }
-
-        form p {
-            margin-bottom: 15px;
-        }
-
-        form label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        form input[type="text"],
-        form input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        form input[type="checkbox"] {
-            margin-right: 10px;
-        }
-
-        button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 16px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        thead {
-            background-color: #007bff;
-            color: white;
-            text-transform: uppercase;
-            font-weight: bold;
-            height: 40px;
-
-        }
-
-        thead tr th {
-            margin-left: 5px;
-        }
-
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tbody tr {
-            transition: background-color 0.3s ease;
-        }
-
-        tbody tr:hover {
-            background-color: #ddd;
-        }
-
-        tbody td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        td a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        td a:hover {
-            text-decoration: underline;
-        }
-
-        table thead tr {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
-            color: white;
-        }
-
-        table thead tr {
-            padding: 12px;
-            font-weight: bold;
-            text-align: center;
-            border-bottom: 2px solid #fff;
-        }
-
-        table tbody tr {
-            background-color: #f9f9f9;
-            color: #000;
-        }
-
-        table tbody tr:hover {
-            background-color: #ddd;
-        }
-
-        table td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #ccc;
-        }
-
-
-        .edit-icon {
-            fill: none;
-            stroke: #007bff;
-            transition: stroke 0.3s ease;
-        }
-
-        .edit-icon:hover {
-            stroke: #ff5733;
-            cursor: pointer;
-        }
-
-
-
-        .add {
-            display: flex;
-            justify-content: end;
-            margin-bottom: 10px;
-        }
-
-        .add a {
-            padding: 12px 25px;
-            text-decoration: none;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 8px;
-            font-weight: bold;
-            text-align: center;
-            transition: background-color 0.3s;
-
-        }
-
-        .add a:hover {
-            background-color: #0056b3;
-        }
-
-        h2 {
-            text-align: center;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .edit-icon,
-        .bi-trash3-fill {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            transition: fill 0.3s;
-        }
-
-        .edit-icon:hover,
-        .bi-trash3-fill:hover {
-            fill: #f00;
-        }
-    </style>
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 p-4 md:p-6 lg:p-8 transition-all duration-500">
+
     {% if request.path == '/ishchilar/' %}
-    <div class="add">
-        <a href="{% url 'ishchi_qoshish' %}">Ishchi qo`shish</a>
+    <div class="flex justify-end mb-6" data-aos="fade-left">
+        <a href="{% url 'ishchi_qoshish' %}" class="group px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+            <span class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Ishchi qo`shish</span>
+            <svg class="w-5 h-5 transform group-hover:rotate-90 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+        </a>
     </div>
-    {%endif%}
-    {% if request.path == '/ishchilar/qosh/' %}
-    <div class="add">
-        <a href="{%url 'ishchilar' %}">Orqaga qaytish</a>
-    </div>
-    {%endif%}
+    {% endif %}
 
     {% if request.path == '/ishchilar/qosh/' %}
-    <div class="form-container">
+    <div class="flex justify-end mb-6" data-aos="fade-left">
+        <a href="{% url 'ishchilar' %}" class="group px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded-xl shadow-lg hover:shadow-gray-500/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+            <svg class="w-5 h-5 transform group-hover:-translate-x-2 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Orqaga qaytish</span>
+        </a>
+    </div>
+    {% endif %}
+
+    {% if request.path == '/ishchilar/qosh/' %}
+    <div class="max-w-xl mx-auto p-6 bg-white rounded-xl shadow-lg mb-8 transform hover:scale-[1.02] transition-all duration-500">
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Saqlash</button>
+            <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300">
+                Saqlash
+            </button>
         </form>
     </div>
-    {%endif%}
+    {% endif %}
 
+    <h2 class="text-2xl md:text-3xl font-black text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-1 after:w-24 after:bg-gradient-to-r after:from-blue-500 after:to-purple-500 after:rounded-full pb-4">
+        Ishchilar ro'yxati
+    </h2>
 
-    <h2>Ishchilar ro'yxati</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Foydalanuvchi nomi</th>
-                <th>Ism</th>
-                <th>Familiya</th>
-                <th>Lavozim</th>
-                <th>Xodim</th>
-                <th>Faol</th>
-                <th>Tahrirlash</th>
-                <th>O'chirish</th>
-            </tr>
-            
-        </thead>
-        <tbody>
-            {% for user in ishchi %}
-            <tr>
-                <td>{{ user.username }}</td>
-                <td>{{ user.ism }}</td>
-                <td>{{ user.familiya }}</td>
-                <td>{{ user.lavozimi }}</td>
-                <td>{{ user.is_staff }}</td>
-                <td>{{ user.is_active }}</td>
-                <td class="action-links">
-                    <a href="{% url 'ishchi_edit' user.id %}">
-                        <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-                            height="24">
-                            <path d="M12 20h9" stroke="#000" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M16.5 3.5l4 4-12 12H4.5V13.5l12-12z" stroke="#000" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                </td>
-                <td>
-                    <a href="{% url 'ishchi_delete' user.id %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                            <path stroke="#000"
-                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
-                        </svg>
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-
+    <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 rounded-xl" data-aos="fade-up">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gradient-to-r from-blue-800 to-purple-600 text-white">
+                <tr>
+                    <th class="px-6 py-4 text-left">Foydalanuvchi nomi</th>
+                    <th class="px-6 py-4 text-left">Ism</th>
+                    <th class="px-6 py-4 text-left">Familiya</th>
+                    <th class="px-6 py-4 text-left">Lavozim</th>
+                    <th class="px-6 py-4 text-left">Xodim</th>
+                    <th class="px-6 py-4 text-left">Faol</th>
+                    <th class="px-6 py-4 text-center">Tahrirlash</th>
+                    <th class="px-6 py-4 text-center">O'chirish</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for user in ishchi %}
+                <tr class="hover:bg-gray-50 transition-all duration-300">
+                    <td class="px-6 py-4">{{ user.username }}</td>
+                    <td class="px-6 py-4">{{ user.ism }}</td>
+                    <td class="px-6 py-4">{{ user.familiya }}</td>
+                    <td class="px-6 py-4">{{ user.lavozimi }}</td>
+                    <td class="px-6 py-4">{{ user.is_staff }}</td>
+                    <td class="px-6 py-4">{{ user.is_active }}</td>
+                    <td class="px-6 py-4 text-center">
+                        <a href="{% url 'ishchi_edit' user.id %}" class="text-blue-600 hover:text-blue-800 hover:scale-110 transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 20h9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16.5 3.5l4 4-12 12H4.5V13.5l12-12z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <a href="{% url 'ishchi_delete' user.id %}" class="text-red-600 hover:text-red-800 hover:scale-110 transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 </body>
 

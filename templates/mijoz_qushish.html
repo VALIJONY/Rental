@@ -1,287 +1,94 @@
 {%extends 'home.html'%}
 {%block content%}
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 16px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        thead {
-            background-color: #007bff;
-            color: white;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        thead td {
-            padding: 12px 15px;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tbody tr {
-            transition: background-color 0.3s ease;
-        }
-
-        tbody tr:hover {
-            background-color: #ddd;
-        }
-
-        tbody td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        td a {
-            color: #007bff;
-            /* Link rangini ko'k qilish */
-            text-decoration: none;
-            /* Link ostidagi chiziqni olib tashlash */
-        }
-
-        td a:hover {
-            text-decoration: underline;
-            /* Link ustiga olib borilganda chiziq qo'shish */
-        }
-
-        table thead tr {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
-            color: white;
-            /* Yozuvlar ko'rinishi uchun oq rangda qilindi */
-        }
-
-        table thead tr td {
-            padding: 10px;
-            font-weight: bold;
-            text-align: center;
-            border-bottom: 2px solid #fff;
-            /* Oq rangda chiziq qo'shildi */
-        }
-
-        table tbody tr {
-            background-color: #f9f9f9;
-            color: #000;
-        }
-
-        table tbody tr:hover {
-            background-color: #ddd;
-            /* Hover effekti uchun */
-        }
-
-        table td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #ccc;
-        }
-
-
-        /* Ikona dizayni */
-        .edit-icon {
-            fill: none;
-            stroke: #007bff;
-            /* Ikonani ko'k rangda qilish */
-            transition: stroke 0.3s ease;
-        }
-
-        .edit-icon:hover {
-            stroke: #ff5733;
-            /* Hover qilinganida ikonani rangini o'zgartirish */
-            cursor: pointer;
-        }
-
-        form {
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            max-width: 600px;
-            margin: auto;
-            margin-bottom: 10px;
-        }
-
-        form p {
-            margin-bottom: 15px;
-        }
-
-        form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        form input[type="text"],
-        form input[type="radio"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        form input[type="radio"] {
-            width: auto;
-        }
-
-        form div#id_jinsi {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        form button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        form button:hover {
-            background-color: #45a049;
-        }
-
-        .edit-icon {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            fill: #000;
-            /* Ikonning rangi */
-            transition: fill 0.3s ease;
-        }
-
-        .edit-icon:hover {
-            fill: #007BFF;
-        }
-
-        .add {
-            display: flex;
-            justify-content: end;
-            margin-bottom: 10px;
-        }
-
-        .add a {
-            padding: 12px 25px;
-            text-decoration: none;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 8px;
-            font-weight: bold;
-            text-align: center;
-            transition: background-color 0.3s;
-
-        }
-
-        .add a:hover {
-            background-color: #0056b3;
-        }
-
-        h2 {
-            text-align: center;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .edit-icon,
-        .bi-trash3-fill {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            transition: fill 0.3s;
-        }
-
-        .edit-icon:hover,
-        .bi-trash3-fill:hover {
-            fill: #f00;
-        }
-    </style>
-</head>
-
-<body>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 p-4 md:p-6 lg:p-8 transition-all duration-500">
     {% if request.path == '/mijoz/' %}
-    <div class="add">
-        <a href="{%url 'mijozadd' %}">Mijoz qo`shish</a>
+    <div class="flex justify-end mb-6" data-aos="fade-left">
+        <a href="{%url 'mijozadd' %}" class="group px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+            <span class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Mijoz qo`shish</span>
+            <svg class="w-5 h-5 transform group-hover:rotate-90 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+        </a>
     </div>
     {%endif%}
+    
     {% if request.path == '/mijozadd/' %}
-    <div class="add">
-        <a href="{%url 'mijoz' %}">Orqaga qaytish</a>
+    <div class="flex justify-end mb-6" data-aos="fade-left">
+        <a href="{%url 'mijoz' %}" class="group px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded-xl shadow-lg hover:shadow-gray-500/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+            <svg class="w-5 h-5 transform group-hover:-translate-x-2 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Orqaga qaytish</span>
+        </a>
     </div>
     {%endif%}
 
     {% if request.path == "/mijozadd/" %}
-    <form method="post">
-        {%csrf_token%}
-        {{form.as_p}}
-        <button type="submit">Сохранять</button>
-    </form>
+    <div class="max-w-2xl mx-auto" data-aos="zoom-in">
+        <form method="post" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8 transform hover:scale-[1.02] transition-all duration-500 border border-transparent hover:border-blue-200">
+            {%csrf_token%}
+            <div class="space-y-6">
+                {{form.as_p}}
+            </div>
+            <button type="submit" class="group w-full mt-6 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 overflow-hidden relative">
+                <span class="z-10 relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Saqlash</span>
+                <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-all duration-300 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
+        </form>
+    </div>
     {%endif%}
-    <h2>Mijozlar ro' yxati</h2>
-    <table>
-        <thead>
-            <tr>
-                <td>Ism</td>
-                <td>Familiya</td>
-                <td>foydalanuvchi nomi</td>
-                <td>Telefon raqam</td>
-                <td>Jinsi</td>
-                <td>Passport seriya raqam</td>
-                <td>JSHSHIR</td>
-                <td>Tahrirlash</td>
-                <td>O`chirish</td>
-            </tr>
-        </thead>
-        <tbody>
-            {%for i in mijoz%}
-            <tr>
-                <td>{{i.ism}}</td>
-                <td>{{i.familiya}}</td>
-                <td>{{i.username}}</td>
-                <td>{{i.telefon}}</td>
-                <td>{{i.jinsi}}</td>
-                <td>{{i.pasport}}</td>
-                <td>{{i.jshshir}}</td>
-                <td><a href="{% url 'edit_mijoz' i.pk %}">
-                        <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-                            height="24">
-                            <path d="M12 20h9" stroke="#000" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M16.5 3.5l4 4-12 12H4.5V13.5l12-12z" stroke="#000" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                </td>
-                <td>
-                    <a href="{% url 'mijozdelete' i.pk%}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                            <path stroke="#000"
-                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
-                        </svg>
-                    </a>
-                </td>
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>
 
-
-
-
-    {%endblock content%}
-</body>
-
-</html>
+    <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 rounded-xl max-w-6xl mx-auto ml-auto">
+        <h2 class="text-2xl md:text-3xl font-black text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-1 after:w-24 after:bg-gradient-to-r after:from-blue-500 after:to-purple-500 after:rounded-full pb-4">
+            Mijozlar ro'yxati
+        </h2>
+        <table class="w-full min-w-max">
+            <thead>
+                <tr class="bg-gradient-to-r from-slate-900 via-blue-900 to-purple-900 text-white">
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Ism</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Familiya</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Foydalanuvchi</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Telefon</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Jinsi</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Passport</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">JSHSHIR</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-center">Amallar</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for i in mijoz %}
+                <tr class="hover:bg-gray-50 transition-all duration-300 hover:shadow-md">
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.ism }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.familiya }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.username }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.telefon }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.jinsi }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.pasport }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.jshshir }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center justify-center space-x-4">
+                            <a href="{% url 'edit_mijoz' i.pk %}" class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-300 transform hover:scale-110 hover:rotate-12">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                            </a>
+                            <a href="{% url 'mijozdelete' i.pk %}" class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-all duration-300 transform hover:scale-110 hover:-rotate-12">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+        
+    </div>
+</div>
+{%endblock content%}

@@ -1,80 +1,30 @@
-{%extends 'home.html'%}
-{%block content%}
+{% extends 'home.html' %}
+
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ</title>
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-form p {
-    margin-bottom: 15px;
-}
-
-button {
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    color: #fff;
-    text-decoration: none;
-    text-align: center;
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px;
-}
-
-.btn-primary:hover, .btn-secondary:hover {
-    opacity: 0.8;
-}
-
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Редактировать возврат</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Сохранять</button>
-        </form>
-        <a href="{% url 'qaytarish' %}" class="btn btn-secondary">Назад</a>
-    </div>
+<body class="bg-gray-100">
 
-{%endblock content%}
+    <div class="max-w-2xl mx-auto" data-aos="zoom-in">
+        <form method="post" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8 transform hover:scale-[1.02] transition-all duration-500 border border-transparent hover:border-blue-200">
+            {% csrf_token %}
+            <div class="space-y-6">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="group w-full mt-6 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 overflow-hidden relative">
+                <span class="z-10 relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Saqlash</span>
+                <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-all duration-300 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
+        </form>
+    </div>
+{% endblock content %}
 </body>
 </html>

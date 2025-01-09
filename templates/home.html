@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
@@ -6,388 +5,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
-
-    <title>Admin</title>
-    <style>
-        /* Umumiy o'rnatmalar */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f7f9fc;
-        }
-
-        /* Header */
-        .header {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0px 20px;
-        }
-
-        .header .profile-info {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .header img {
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        .header .logo {
-            width: 300px;
-            height: 80px;
-            position: relative;
-        }
-
-        .header .logo div {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: auto;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 3em;
-            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
-            -webkit-background-clip: text;
-            color: transparent;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-
-        }
-
-        .header .logout {
-            background-color: #f00;
-            color: #fff;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .header .logout:hover {
-            background-color: #d00;
-        }
-
-        /* Layout */
-        .layout {
-            display: flex;
-            height: calc(100vh - 50px);
-        }
-
-        /* Menu */
-        .menu {
-            width: 250px;
-            border-right: 2px solid #ccc;
-            position: relative;
-            overflow-y: auto;
-            transition: width 0.3s ease;
-        }
-
-        .menu ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .menu ul li {
-            padding: 15px;
-            border-bottom: 1px solid #ccc;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .menu ul li:hover {
-            background-color: #007bff;
-            color: #fff;
-            transform: scale(1.05);
-        }
-
-        .menu ul li a {
-            text-decoration: none;
-            color: #333;
-            display: flex;
-            align-items: center;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            background-color: #fff;
-            overflow-y: auto;
-            transition: margin-left 0.3s ease;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .modal-popup {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .modal-profile-info img {
-            width: 300px;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .modal-button-group {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        /* Responsivlik */
-        @media (max-width: 768px) {
-            .menu {
-                width: 100%;
-                border-right: none;
-                border-bottom: 2px solid #ccc;
-            }
-
-            .layout {
-                flex-direction: column;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .dashboard {
-            padding: 20px;
-        }
-
-        .stats {
-            display: flex;
-            gap: 20px;
-            justify-content: space-around;
-        }
-
-        .stat-item {
-            flex: 1;
-            background: #007bff;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .chart-container {
-            margin-top: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <title>Admin Dashboard</title>
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 min-h-screen font-sans">
     <script src="https://kit.fontawesome.com/0b17d89bae.js" crossorigin="anonymous"></script>
 
-    <div class="header">
-        <div class="profile-info" onclick="openModal()">
-            <img src="{{ request.user.rasm.url }}" alt="Profile Picture" class="profile-pic">
-            <div class="profile-details">
-                <span>{{ request.user.ism }} {{ request.user.familiya }}</span><br>
-                <span>{{ request.user.lavozimi }}</span>
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-slate-900 via-blue-900 to-purple-900 text-white shadow-xl">
+        <div class="container mx-auto px-8 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Profile Section -->
+                <div class="group relative cursor-pointer" onclick="openModal()">
+                    <div class="flex items-center space-x-4 transform hover:scale-105 transition-all duration-500 ease-out">
+                        <div class="relative overflow-hidden rounded-full">
+                            <img src="{{ request.user.rasm.url }}" alt="Profile" class="w-14 h-14 object-cover rounded-full ring-4 ring-white/30 group-hover:ring-blue-400 transition-all duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-20 transition-all duration-500"></div>
+                        </div>
+                        <div class="group-hover:translate-x-2 transition-all duration-500">
+                            <p class="font-bold text-xl tracking-wide">{{ request.user.ism }} {{ request.user.familiya }}</p>
+                            <p class="text-sm text-blue-200">{{ request.user.lavozimi }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logo -->
+                <div class="text-5xl font-black tracking-wider" data-aos="fade-down" data-aos-duration="1000">
+                    <a href="{% url 'home' %}" class="relative group inline-block">
+                        <span class="bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent group-hover:tracking-widest transition-all duration-500">
+                            RENTALUZ
+                        </span>
+                        <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-purple-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></span>
+                    </a>
+                </div>
+
+                <!-- Logout Button -->
+                <button onclick="window.location.href='{% url 'logout' %}'" class="relative overflow-hidden bg-gradient-to-r from-red-500 to-pink-600 text-white px-8 py-3 rounded-xl group transform hover:scale-105 transition-all duration-500">
+                    <span class="relative z-10 font-bold tracking-wider text-lg">CHIQISH</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-red-600 to-pink-700 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                    <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </button>
             </div>
         </div>
+    </nav>
 
-
-        <div class="modal-overlay" id="profileOverlay" style="display: none; color:black;">
-            <div class="modal-popup">
-                <div class="modal-profile-info">
-                    <img src="{{ request.user.rasm.url }}" alt="Profile Picture" class="modal-profile-pic">
-                    <h2>{{ request.user.ism }} {{ request.user.familiya }}</h2>
-                    <p class="modal-username">Username: {{ request.user.username }}</p>
-                    <p class="modal-lavozimi">Lavozimi: {{ request.user.lavozimi }}</p>
-                </div>
-                <div class="modal-button-group">
-                    <button onclick="window.location.href='{% url 'edit_profile' request.user.id %}'"
-                        class="btn btn-primary">Редактировать</button>
-                    <button onclick="closeModal()" class="btn btn-secondary">Закрыть</button>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="logo">
-            <div class="text"><a href="{% url 'home' %}" style="text-decoration: none;">RENTALUZ</a></div>
-        </div>
-
-        <div>
-            <!-- <span class="notification-icon">
-                <i class="fas fa-bell"></i>
-                <span class="notification-count">3</span>
-            </span> -->
-            <button class="logout" onclick="window.location.href='{% url 'logout' %}'">CHIQISH</button>
-        </div>
-    </div>
-
-    <div class="layout">
-        <nav class="menu" id="sidebar">
+    <div class="flex min-h-[calc(100vh-5rem)]">
+        <!-- Sidebar -->
+        <nav class="fixedw-80 bg-white/80 backdrop-blur-lg shadow-2xl transform transition-all duration-500">
             {% if request.user.lavozimi == "Admin"%}
-            <ul>
-                <li><a href="{% url 'mijoz' %}" style="gap:0.5rem"><i class="fas fa-user-plus" ></i>Mijoz qo'shish</a></li>
-                <li><a href="{% url 'qurilmalar' %}" style="gap:0.5rem"><i class="fas fa-laptop"></i> Qurilma qo'shish</a></li>
-                <li><a href="{% url 'ishchilar' %}" style="gap:0.5rem"><i class="fas fa-user-plus"></i> Xodim qo'shish</a></li>
-                <li><a href="{% url 'tamirlash' %}" style="gap:0.5rem"><i class="fas fa-tools"></i> Ta'mirlash</a></li>
-                <li><a href="{% url 'prokatall' %}" style="gap:0.5rem"><i class="fas fa-file-contract"></i> Shartnoma tuzish</a></li>
-                <li><a href="{% url 'qaytarish' %}" style="gap:0.5rem"><i class="fas fa-undo"></i> Qaytarish</a></li>
+            <ul class="py-6 space-y-1">
+                <li data-aos="fade-right" data-aos-delay="100">
+                    <a href="{% url 'mijoz' %}" class="flex items-center px-8 py-4 space-x-4 hover:bg-gradient-to-r from-blue-500 to-purple-500 text-gray-700 hover:text-white transition-all duration-500 group rounded-r-full">
+                        <i class="fas fa-user-plus text-2xl group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="font-semibold text-lg group-hover:translate-x-2 transition-transform duration-500">Mijoz qo'shish</span>
+                    </a>
+                </li>
+                <li data-aos="fade-right" data-aos-delay="200">
+                    <a href="{% url 'qurilmalar' %}" class="flex items-center px-8 py-4 space-x-4 hover:bg-gradient-to-r from-blue-500 to-purple-500 text-gray-700 hover:text-white transition-all duration-500 group rounded-r-full">
+                        <i class="fas fa-laptop text-2xl group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="font-semibold text-lg group-hover:translate-x-2 transition-transform duration-500">Qurilma qo'shish</span>
+                    </a>
+                </li>
+                <li data-aos="fade-right" data-aos-delay="300">
+                    <a href="{% url 'ishchilar' %}" class="flex items-center px-8 py-4 space-x-4 hover:bg-gradient-to-r from-blue-500 to-purple-500 text-gray-700 hover:text-white transition-all duration-500 group rounded-r-full">
+                        <i class="fas fa-user-plus text-2xl group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="font-semibold text-lg group-hover:translate-x-2 transition-transform duration-500">Xodim qo'shish</span>
+                    </a>
+                </li>
+                <li data-aos="fade-right" data-aos-delay="400">
+                    <a href="{% url 'tamirlash' %}" class="flex items-center px-8 py-4 space-x-4 hover:bg-gradient-to-r from-blue-500 to-purple-500 text-gray-700 hover:text-white transition-all duration-500 group rounded-r-full">
+                        <i class="fas fa-tools text-2xl group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="font-semibold text-lg group-hover:translate-x-2 transition-transform duration-500">Ta'mirlash</span>
+                    </a>
+                </li>
+                <li data-aos="fade-right" data-aos-delay="500">
+                    <a href="{% url 'prokatall' %}" class="flex items-center px-8 py-4 space-x-4 hover:bg-gradient-to-r from-blue-500 to-purple-500 text-gray-700 hover:text-white transition-all duration-500 group rounded-r-full">
+                        <i class="fas fa-file-contract text-2xl group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="font-semibold text-lg group-hover:translate-x-2 transition-transform duration-500">Shartnoma tuzish</span>
+                    </a>
+                </li>
+                <li data-aos="fade-right" data-aos-delay="600">
+                    <a href="{% url 'qaytarish' %}" class="flex items-center px-8 py-4 space-x-4 hover:bg-gradient-to-r from-blue-500 to-purple-500 text-gray-700 hover:text-white transition-all duration-500 group rounded-r-full">
+                        <i class="fas fa-undo text-2xl group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="font-semibold text-lg group-hover:translate-x-2 transition-transform duration-500">Qaytarish</span>
+                    </a>
+                </li>
             </ul>
             {% endif %}
         </nav>
 
-        <main class="main-content">
-
+        <!-- Main Content -->
+        <main class="flex-1 p-10">
             {% block content %}
             {%if request.path == '/home/' %}
-            <!-- DASHBOARD -->
-            <div class="dashboard">
-                <h2>Dashboard</h2>
-                <div class="stats">
-                    <div class="stat-item">
-                        <i class="fas fa-users fa-2x"></i>
-                        <div class="stat-info">
-                            <h3>{{ mijozlar_soni }}</h3>
-                            <p>Mijozlar soni</p>
+            <div class="space-y-10">
+                <h2 class="text-5xl font-black text-gray-800 relative" data-aos="fade-down">
+                    Dashboard
+                    <span class="absolute bottom-0 left-0 w-32 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></span>
+                </h2>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Mijozlar Card -->
+                    <div data-aos="zoom-in" data-aos-delay="100" class="relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 rounded-3xl p-8 text-white shadow-2xl group hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500">
+                        <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-white opacity-10 rounded-full transform rotate-45 group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="flex items-center space-x-6">
+                            <i class="fas fa-users text-5xl opacity-90 group-hover:scale-125 transition-transform duration-500"></i>
+                            <div>
+                                <h3 class="text-4xl font-black mb-1">{{ mijozlar_soni }}</h3>
+                                <p class="text-lg text-blue-100">Mijozlar soni</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="stat-item">
-                        <i class="fas fa-tools fa-2x"></i>
-                        <div class="stat-info">
-                            <h3>{{ tamirlashdagi_qurilmalar }}</h3>
-                            <p>Ta'mirlanayotgan qurilmalar</p>
+
+                    <!-- Tamirlash Card -->
+                    <div data-aos="zoom-in" data-aos-delay="200" class="relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 rounded-3xl p-8 text-white shadow-2xl group hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500">
+                        <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-white opacity-10 rounded-full transform rotate-45 group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="flex items-center space-x-6">
+                            <i class="fas fa-tools text-5xl opacity-90 group-hover:scale-125 transition-transform duration-500"></i>
+                            <div>
+                                <h3 class="text-4xl font-black mb-1">{{ tamirlashdagi_qurilmalar }}</h3>
+                                <p class="text-lg text-blue-100">Ta'mirlanayotgan qurilmalar</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="stat-item">
-                        <i class="fas fa-file-contract fa-2x"></i>
-                        <div class="stat-info">
-                            <h3>{{ faol_shartnomalar }}</h3>
-                            <p>Faol shartnomalar</p>
+
+                    <!-- Shartnomalar Card -->
+                    <div data-aos="zoom-in" data-aos-delay="300" class="relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 rounded-3xl p-8 text-white shadow-2xl group hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500">
+                        <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-white opacity-10 rounded-full transform rotate-45 group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="flex items-center space-x-6">
+                            <i class="fas fa-file-contract text-5xl opacity-90 group-hover:scale-125 transition-transform duration-500"></i>
+                            <div>
+                                <h3 class="text-4xl font-black mb-1">{{ faol_shartnomalar }}</h3>
+                                <p class="text-lg text-blue-100">Faol shartnomalar</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="stat-item">
-                        <i class="fas fa-undo fa-2x"></i>
-                        <div class="stat-info">
-                            <h3>{{ qaytarilgan_soni }}</h3>
-                            <p>Qaytarilgan qurilmalar</p>
+
+                    <!-- Qaytarilgan Card -->
+                    <div data-aos="zoom-in" data-aos-delay="400" class="relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 rounded-3xl p-8 text-white shadow-2xl group hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500">
+                        <div class="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-white opacity-10 rounded-full transform rotate-45 group-hover:scale-150 transition-transform duration-700"></div>
+                        <div class="flex items-center space-x-6">
+                            <i class="fas fa-undo text-5xl opacity-90 group-hover:scale-125 transition-transform duration-500"></i>
+                            <div>
+                                <h3 class="text-4xl font-black mb-1">{{ qaytarilgan_soni }}</h3>
+                                <p class="text-lg text-blue-100">Qaytarilgan qurilmalar</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div id="chart" class="chart-container">
-            </div> -->
-
-
             {%endif%}
-
             {% endblock %}
         </main>
     </div>
+
+    <!-- Profile Modal -->
+    <div id="profileOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-10 max-w-lg w-full transform transition-all duration-500 scale-95 hover:scale-100 shadow-2xl">
+            <div class="text-center">
+                <img src="{{ request.user.rasm.url }}" alt="Profile Picture" class="w-52 h-52 object-cover rounded-3xl mx-auto mb-8 shadow-xl ring-8 ring-blue-500/20 hover:ring-blue-500/40 transition-all duration-500">
+                <h2 class="text-4xl font-black text-gray-800 mb-3">{{ request.user.ism }} {{ request.user.familiya }}</h2>
+                <p class="text-lg text-gray-600 mb-2">Username: {{ request.user.username }}</p>
+                <p class="text-lg text-gray-600 mb-8">Lavozimi: {{ request.user.lavozimi }}</p>
+                <div class="flex justify-between space-x-6">
+                    <a href="{% url 'edit_profile' request.user.id %}" class="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-500">TAHRIRLASH</a>
+                    <button onclick="closeModal()" class="flex-1 bg-gradient-to-r from-gray-600 to-gray-700 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-500">YOPISH</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
     <script>
-        // Grafik uchun kod
-        Plotly.newPlot('chart', [{
-            x: ['Mijozlar', 'Ta’mir', 'Shartnomalar', 'Qaytarilganlar'],
-            y: [{{ mijozlar_soni }}, {{ tamirlashdagi_qurilmalar }}, {{ faol_shartnomalar }}, {{ qaytarilgan_soni }}],
-            type: 'bar'
-}], {
-                title: 'Umumiy statistik ko‘rsatkichlar'
-            });
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-out-cubic'
+        });
 
-    </script>
-
-
-
-
-    <script>
+        // Modal functions with animations
         function openModal() {
-            document.getElementById('profileOverlay').style.display = 'flex';
+            const modal = document.getElementById('profileOverlay');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
         }
 
         function closeModal() {
-            document.getElementById('profileOverlay').style.display = 'none';
+            const modal = document.getElementById('profileOverlay');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
         }
+
+        // Enhanced Chart configuration
+        const chartConfig = {
+            x: ['Mijozlar', 'Ta\'mir', 'Shartnomalar', 'Qaytarilganlar'],
+            y: [{{ mijozlar_soni }}, {{ tamirlashdagi_qurilmalar }}, {{ faol_shartnomalar }}, {{ qaytarilgan_soni }}],
+            type: 'bar',
+            marker: {
+                color: ['rgba(59, 130, 246, 0.8)', 'rgba(99, 102, 241, 0.8)', 'rgba(139, 92, 246, 0.8)', 'rgba(168, 85, 247, 0.8)'],
+                line: {
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    width: 2
+                }
+            }
+        };
+
+        const layout = {
+            title: {
+                text: 'Umumiy statistik ko\'rsatkichlar',
+                font: {
+                    size: 24,
+                    color: '#1F2937',
+                    family: 'system-ui'
+                }
+            },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { 
+                color: '#1F2937',
+                family: 'system-ui'
+            },
+            margin: { t: 60, r: 30, l: 50, b: 50 },
+            bargap: 0.3,
+            showlegend: false
+        };
+
+        Plotly.newPlot('chart', [chartConfig], layout, {responsive: true});
     </script>
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <script>
         $(document).ready(function () {
-            // Kalendar uchun
-            $("#id_berilgan_sanasi").datepicker({
+            // Enhanced Datepicker configuration
+            const datePickerConfig = {
                 dateFormat: "yy-mm-dd",
-                onSelect: function () {
-                    calculateDays();
-                }
-            });
+                onSelect: calculateDays,
+                showAnim: "fadeIn",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "2020:2030",
+                showOtherMonths: true,
+                selectOtherMonths: true
+            };
 
-            $("#id_qaytish_sanasi").datepicker({
-                dateFormat: "yy-mm-dd",
-                onSelect: function () {
-                    calculateDays();
-                }
-            });
+            $("#id_berilgan_sanasi, #id_qaytish_sanasi").datepicker(datePickerConfig)
+                .on('focus', function() {
+                    $(this).addClass('ring-4 ring-blue-500/30 scale-105');
+                })
+                .on('blur', function() {
+                    $(this).removeClass('ring-4 ring-blue-500/30 scale-105');
+                });
 
-            // Kunlar sonini hisoblash va umumiy narxni hisoblash
             function calculateDays() {
                 const berilganSanasi = new Date($("#id_berilgan_sanasi").val());
                 const qaytishSanasi = new Date($("#id_qaytish_sanasi").val());
                 const timeDifference = qaytishSanasi - berilganSanasi;
                 const daysDifference = timeDifference / (1000 * 3600 * 24);
+
                 if (!isNaN(daysDifference) && daysDifference >= 0) {
-                    $("#id_kunlar_soni").val(daysDifference);
+                    $("#id_kunlar_soni").val(daysDifference)
+                        .addClass('scale-105')
+                        .delay(300)
+                        .queue(function(next) {
+                            $(this).removeClass('scale-105');
+                            next();
+                        });
                     calculateTotal();
                 } else {
                     $("#id_kunlar_soni").val(0);
@@ -399,28 +296,44 @@
                 const days = parseFloat($("#id_kunlar_soni").val()) || 0;
                 const quantity = parseFloat($("#id_miqdori").val()) || 0;
                 const servicePrice = parseFloat($("#id_xizmat_narxi").val()) || 0;
-
-                // Umumiy narxni hisoblash
                 const total = (dailyPrice * days * quantity) + servicePrice;
-                $("#id_umumiy_narx").val(total.toFixed(2));
+                
+                $("#id_umumiy_narx")
+                    .val(total.toFixed(2))
+                    .addClass('scale-105')
+                    .delay(300)
+                    .queue(function(next) {
+                        $(this).removeClass('scale-105');
+                        next();
+                    })
+                    .trigger('change');
             }
 
-            // Montaj tugmasi belgilanganda xizmat narxini ochish
             $("#id_montaj").change(function () {
+                const xizmatNarxi = $("#id_xizmat_narxi");
                 if ($(this).is(":checked")) {
-                    $("#id_xizmat_narxi").prop("disabled", false);
+                    xizmatNarxi
+                        .prop("disabled", false)
+                        .addClass('ring-4 ring-blue-500/30')
+                        .focus();
                 } else {
-                    $("#id_xizmat_narxi").val('').prop("disabled", true);
-                    calculateTotal(); // Xizmat narxi o'chirilganda umumiy narxni qayta hisoblash
+                    xizmatNarxi
+                        .val('')
+                        .prop("disabled", true)
+                        .removeClass('ring-4 ring-blue-500/30');
+                    calculateTotal();
                 }
             });
 
-            // Xizmat narxi, kunlik narx va miqdor o'zgartirganda umumiy narxni qayta hisoblash
-            $("#id_kunlik_narxi, #id_xizmat_narxi, #id_miqdori").on('input', calculateTotal);
+            $("#id_kunlik_narxi, #id_xizmat_narxi, #id_miqdori")
+                .on('input', calculateTotal)
+                .on('focus', function() {
+                    $(this).addClass('ring-4 ring-blue-500/30 scale-105');
+                })
+                .on('blur', function() {
+                    $(this).removeClass('ring-4 ring-blue-500/30 scale-105');
+                });
         });
     </script>
-
-
 </body>
-
 </html>

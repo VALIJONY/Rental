@@ -1,247 +1,99 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-    background-color: #e9ecef; /* Orqa fon rang */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Shrift */
-    display: flex;
-    justify-content: center; /* Markazga joylash */
-    align-items: center; /* Vertikal markazga joylash */
-    height: 100vh; /* Butun ekran balandligi */
-    margin: 0; /* Marginlarni olib tashlash */
-}
-
-.login-container {
-    max-width: 400px; /* Maksimal kenglik */
-    margin: 20px; /* Marginlar */
-    padding: 20px; /* Ichki bo'shliqlar */
-    background-color: #ffffff; /* Fon rangi */
-    border-radius: 10px; /* Burchaklarni yumshatish */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soyalar */
-    transition: transform 0.3s ease; /* Animatsiya */
-}
-
-.login-container:hover {
-    transform: translateY(-5px); /* Hover holatida ko'tarilish */
-}
-
-.login-header {
-    text-align: center; /* Markazga joylash */
-    margin-bottom: 20px; /* Pastki bo'shliq */
-    color: #343a40; /* Matn rangi */
-    font-size: 24px; /* Matn o'lchami */
-    animation: fadeIn 0.5s; /* Animatsiya */
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px); /* Yuqoriga siljitish */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0); /* O'rnida qolish */
-    }
-}
-
-.form-group {
-    margin-bottom: 15px; /* Guruhlar orasidagi bo'shliqlar */
-}
-
-label {
-    display: block; /* Yozuvlar uchun to'liq joy */
-    margin-bottom: 5px; /* Pastki bo'shliq */
-    font-weight: bold; /* Qalin matn */
-    color: #495057; /* Yozuv rangi */
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 100%; /* Kenglikni 100% ga tenglashtirish */
-    padding: 10px; /* Ichki bo'shliqlar */
-    border: 1px solid #ced4da; /* Chegaralar */
-    border-radius: 5px; /* Burchaklarni yumshatish */
-    box-sizing: border-box; /* Chegaralarni hisobga olish */
-    font-size: 16px; /* Shrift o'lchami */
-    transition: border-color 0.3s; /* Chegara rangida animatsiya */
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-    border-color: #007bff; /* Fokus holati uchun rang */
-    outline: none; /* Fokusi olib tashlash */
-}
-
-.btn {
-    background-color: #007bff; /* Tugma rang */
-    color: white; /* Matn rangi */
-    border: none; /* Chegarani olib tashlash */
-    border-radius: 5px; /* Burchaklarni yumshatish */
-    padding: 10px; /* Ichki bo'shliqlar */
-    font-size: 16px; /* Shrift o'lchami */
-    cursor: pointer; /* Ko'rsatkich o'zgarishi */
-    transition: background-color 0.3s, transform 0.2s; /* Rang va ko'tarilish animatsiyasi */
-}
-
-.btn:hover {
-    background-color: #0056b3; /* Hover holati uchun rang */
-    transform: translateY(-2px); /* Hover holatida ko'tarilish */
-}
-
-.btn:active {
-    transform: translateY(1px); /* Tugmani bosganda pastga tushish */
-}
-
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h2 class="login-header">Login</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{form.as_p}}
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </form>
-    </div>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-body {
-    background: linear-gradient(to bottom right, rgba(0, 123, 255, 0.7), rgba(255, 255, 255, 0.8)), url('your-background-image.jpg') no-repeat center center fixed; /* Gradient va rasm */
-    background-size: cover; /* Rasmni qoplash */
-    font-family: 'Arial', sans-serif; /* Shrift */
-    display: flex;
-    justify-content: center; /* Markazga joylash */
-    align-items: center; /* Vertikal markazga joylash */
-    height: 100vh; /* Butun ekran balandligi */
-    margin: 0; /* Marginlarni olib tashlash */
-}
-
-.login-container {
-    max-width: 400px; /* Maksimal kenglik */
-    margin: 20px; /* Marginlar */
-    padding: 30px; /* Ichki bo'shliqlar */
-    background-color: rgba(255, 255, 255, 0.9); /* Orqa fon rangini shaffof qilib belgilash */
-    border-radius: 15px; /* Burchaklarni yumshatish */
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Soyalar */
-    transition: transform 0.3s ease; /* Animatsiya */
-    animation: slideIn 0.5s ease; /* Kirish animatsiyasi */
-}
-
-/* Qolgan CSS qismi o'zgarmaydi */
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-20px); /* Yuqoridan kelish */
-        opacity: 0; /* Shaffoflik */
-    }
-    to {
-        transform: translateY(0); /* O'rnida qolish */
-        opacity: 1; /* To'liq ko'rinish */
-    }
-}
-
-.login-header {
-    text-align: center; /* Markazga joylash */
-    margin-bottom: 20px; /* Pastki bo'shliq */
-    color: #343a40; /* Matn rangi */
-}
-
-.form-group {
-    margin-bottom: 20px; /* Guruhlar orasidagi bo'shliqlar */
-}
-
-label {
-    display: block; /* Yozuvlar uchun to'liq joy */
-    margin-bottom: 5px; /* Pastki bo'shliq */
-    font-weight: bold; /* Qalin matn */
-    color: #495057; /* Yozuv rangi */
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 100%; /* Kenglikni 100% ga tenglashtirish */
-    padding: 12px; /* Ichki bo'shliqlar */
-    border: 1px solid #ced4da; /* Chegaralar */
-    border-radius: 8px; /* Burchaklarni yumshatish */
-    box-sizing: border-box; /* Chegaralarni hisobga olish */
-    font-size: 16px; /* Shrift o'lchami */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Chegara rangida va soyada animatsiya */
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-    border-color: #007bff; /* Fokus holati uchun rang */
-    outline: none; /* Fokusi olib tashlash */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Fokusda soyalar */
-}
-
-.btn {
-    background-color: #007bff; /* Tugma rang */
-    color: white; /* Matn rangi */
-    border: none; /* Chegarani olib tashlash */
-    border-radius: 8px; /* Burchaklarni yumshatish */
-    padding: 12px; /* Ichki bo'shliqlar */
-    font-size: 16px; /* Shrift o'lchami */
-    cursor: pointer; /* Ko'rsatkich o'zgarishi */
-    transition: background-color 0.3s, transform 0.2s; /* Rang va ko'tarilish animatsiyasi */
-}
-
-.btn:hover {
-    background-color: #0056b3; /* Hover holati uchun rang */
-    transform: translateY(-2px); /* Hover holatida ko'tarilish */
-}
-
-.footer-text {
-    text-align: center; /* Markazga joylash */
-    margin-top: 20px; /* Yuqoridan bo'shliq */
-}
-
-.footer-text a {
-    color: #007bff; /* Havola rangi */
-    text-decoration: none; /* Chiziqlarni olib tashlash */
-}
-
-.footer-text a:hover {
-    text-decoration: underline; /* Hover holatida chiziq */
-}
-
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="login-container">
-        <div class="login-header">
-            <h2>Rental Service Login</h2>
-            <p>Please enter your credentials</p>
-        </div>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_username">Username:</label>
-                <input type="text" name="username" required="" id="id_username" class="form-control">
+<body class="min-h-screen bg-gradient-to-br from-indigo-600 via-blue-500 to-purple-500 bg-cover bg-center bg-no-repeat font-sans">
+    <div class="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+        <div class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white/95 p-8 shadow-2xl transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-3xl animate__animated animate__fadeIn">
+            <!-- Login Container -->
+            <div class="text-center animate__animated animate__fadeInDown">
+                <h2 class="mb-2 text-3xl font-bold tracking-tight text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Rentaluzga kirish
+                </h2>
+                <p class="text-sm text-gray-600">
+                    Hisob maʼlumotlaringizni kiriting
+                </p>
             </div>
-            <div class="form-group">
-                <label for="id_password">Password:</label>
-                <input type="password" name="password" required="" id="id_password" class="form-control">
+
+            <form class="mt-8 space-y-6 animate__animated animate__fadeInUp" method="post">
+                {% csrf_token %}
+                
+                <!-- Username input -->
+                <div class="transform transition-all duration-300 hover:scale-[1.02]">
+                    <label for="id_username" class="block text-sm font-medium text-gray-700">
+                        Username
+                    </label>
+                    <div class="mt-1 relative group">
+                        <input id="id_username" 
+                               name="username" 
+                               type="text" 
+                               required 
+                               class="block w-full appearance-none rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm transition-all duration-300 hover:border-blue-400"
+                               placeholder="Foydalanuvchi nomini kiriting">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password input -->
+                <div class="transform transition-all duration-300 hover:scale-[1.02]">
+                    <label for="id_password" class="block text-sm font-medium text-gray-700">
+                        Parol
+                    </label>
+                    <div class="mt-1 relative group">
+                        <input id="id_password" 
+                               name="password" 
+                               type="password" 
+                               required 
+                               class="block w-full appearance-none rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm transition-all duration-300 hover:border-blue-400"
+                               placeholder="Parolni kiriting">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="transform transition-all duration-300">
+                    <button type="submit" 
+                            class="group relative flex w-full justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 animate__animated animate__pulse animate__infinite">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-white/70 group-hover:text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                            </svg>
+                        </span>
+                        Kirish
+                    </button>
+                </div>
+            </form>
+
+            <!-- Footer -->
+            <div class="mt-6 text-center text-sm text-gray-600 animate__animated animate__fadeIn animate__delay-1s">
+                <p class="hover:text-blue-600 transition-colors duration-300">Tizimdan foydalanish bo'yicha yordam kerakmi?</p>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </form>
-        <div class="footer-text">
         </div>
     </div>
+
+    <script>
+        // Add smooth hover effects
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-105');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-105');
+            });
+        });
+    </script>
 </body>
 </html>

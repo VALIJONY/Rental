@@ -1,333 +1,113 @@
-{%extends 'home.html'%}
-{%block content%}
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ</title>
-    <style>
-        .form-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.form-container form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-container label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
-
-.form-container input[type="text"],
-.form-container input[type="number"], /* Number (integer) maydonlar uchun */
-.form-container select,
-.form-container input[type="file"] {
-    margin-bottom: 15px;
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.form-container button {
-    padding: 10px 20px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: auto;
-    margin-top: 10px;
-    align-self: flex-start;
-}
-
-.form-container button:hover {
-    background-color: #218838;
-}
-
-.form-container a {
-    color: #28a745;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.form-container a:hover {
-    color: #218838;
-}
-
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 16px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        thead {
-            background-color: #007bff;
-            color: white;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        thead td {
-            padding: 12px 15px;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tbody tr {
-            transition: background-color 0.3s ease;
-        }
-
-        tbody tr:hover {
-            background-color: #ddd;
-        }
-
-        tbody td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        td a {
-            color: #007bff;
-            /* Link rangini ko'k qilish */
-            text-decoration: none;
-            /* Link ostidagi chiziqni olib tashlash */
-        }
-
-        td a:hover {
-            text-decoration: underline;
-            /* Link ustiga olib borilganda chiziq qo'shish */
-        }
-
-        table thead tr {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(28, 29, 85, 1) 59%, rgba(99, 26, 29, 1) 100%);
-            color: white;
-        }
-
-        table thead tr td {
-            padding: 8px;
-            font-weight: bold;
-            text-align: center;
-            border-bottom: 2px solid #fff;
-        }
-
-        table tbody tr {
-            background-color: #f9f9f9;
-            color: #000;
-        }
-
-        table tbody tr:hover {
-            background-color: #ddd;
-        }
-
-        table td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #ccc;
-        }
-
-
-        /* Ikona dizayni */
-        .edit-icon {
-            fill: none;
-            stroke: #007bff;
-            transition: stroke 0.3s ease;
-        }
-
-        .edit-icon:hover {
-            stroke: #ff5733;
-            cursor: pointer;
-        }
-
-        
-        .add {
-            display: flex;
-            justify-content: end;
-            margin-bottom: 10px;
-        }
-
-        .add a {
-            padding: 12px 25px;
-            text-decoration: none;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 8px;
-            font-weight: bold;
-            text-align: center;
-            transition: background-color 0.3s;
-
-        }
-
-        .add a:hover {
-            background-color: #0056b3;
-        }
-
-        h2 {
-            text-align: center;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .edit-icon,
-        .bi-trash3-fill {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            transition: fill 0.3s;
-        }
-
-        .edit-icon:hover,
-        .bi-trash3-fill:hover {
-            fill: #f00;
-        }
-        h2 {
-            text-align: center;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-    </style>
-</head>
-
-<body>
+{% extends 'home.html' %}
+{% block content %}
+<div class=" min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 p-4 md:p-6 lg:p-8 transition-all duration-500 w-9/10">
 
     {% if request.path == '/prokatall/' %}
-    <div class="add">
-        <a href="{%url 'prokot' %}">Shartnoma tuzish</a>
+    <div class="flex justify-end mb-6" data-aos="fade-left">
+        <a href="{% url 'prokot' %}" class="group px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+            <span class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Shartnoma qo`shish</span>
+            <svg class="w-5 h-5 transform group-hover:rotate-90 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+        </a>
     </div>
-    {%endif%}
+    {% endif %}
+    
     {% if request.path == '/prokot/' %}
-    <div class="add">
-        <a href="{%url 'prokatall' %}">Orqaga qaytish</a>
+    <div class="flex justify-end mb-6" data-aos="fade-left">
+        <a href="{% url 'prokatall' %}" class="group px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded-xl shadow-lg hover:shadow-gray-500/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+            <svg class="w-5 h-5 transform group-hover:-translate-x-2 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Orqaga qaytish</span>
+        </a>
     </div>
-    {%endif%}
-<a href="{% url 'export_all_contracts' %}" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-spreadsheet" viewBox="0 0 16 16">
-  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v4h10V2a1 1 0 0 0-1-1zm9 6h-3v2h3zm0 3h-3v2h3zm0 3h-3v2h2a1 1 0 0 0 1-1zm-4 2v-2H6v2zm-4 0v-2H3v1a1 1 0 0 0 1 1zm-2-3h2v-2H3zm0-3h2V7H3zm3-2v2h3V7zm3 3H6v2h3z"/>
-</svg></a>
-    <a href="{% url 'export_all_contracts' %}" class="btn btn-primary">👈Excel formatda yuklash</a>
-
-
-{%if request.path == '/prokot/' %}
-    <div class="form-container" id="form">
-        <form method="post" enctype="multipart/form-data">
+    {% endif %}
+   <!-- Umumiy Excel faylini yuklash tugmasi -->
+   <div class="flex justify-start mt-8">
+    <a href="{% url 'export_all_contracts' %}" class="group px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold rounded-xl shadow-lg hover:shadow-yellow-500/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+        <span class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Excel Yuklash</span>
+        <svg class="w-5 h-5 transform group-hover:rotate-90 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+    </a>
+</div>
+    {% if request.path == "/prokot/" %}
+    <div class="max-w-2xl mx-auto" data-aos="zoom-in">
+        <form method="post" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8 transform hover:scale-[1.02] transition-all duration-500 border border-transparent hover:border-blue-200">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">СОХРАНЯТЬ</button>
+            <div class="space-y-6">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="group w-full mt-6 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 overflow-hidden relative">
+                <span class="z-10 relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">Saqlash</span>
+                <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-all duration-300 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
         </form>
     </div>
-{%endif%}
+    {% endif %}
 
-<h2>shartnomalar</h2>
-        <table>
+    <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100 rounded-xl max-w-6xl mx-auto ml-auto">
+        <h2 class="text-2xl md:text-3xl font-black text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-1 after:w-24 after:bg-gradient-to-r after:from-blue-500 after:to-purple-500 after:rounded-full pb-4">
+            Shartnomalar ro'yxati
+        </h2>
+        <table class="w-full min-w-max">
             <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Mijoz</td>
-                    <td>Qurilma</td>
-                    <td>Master</td>
-                    <td>Berish sanasi</td>
-                    <td>Qaytarish sanasi</td>
-                    <td>Yuklash</td>
-                    <td>Tahrirlash</td>
-                    <td>O'chirish</td>
+                <tr class="bg-gradient-to-r from-slate-900 via-blue-900 to-purple-900 text-white">
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">ID</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Mijoz</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Qurilma</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Master</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Berish sanasi</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-left">Qaytarish sanasi</th>
+                    <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-center">Yuklash</th>
+                    <td class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-center">Amallar</td>
                 </tr>
-                
             </thead>
-            <tbody>
-                {%for i in shartnomalar%}
-                <tr>
-                    <td>{{i.id}}</td>
-                    <td>{{i.mijoz.ism}}</td>
-                    <td>{{i.qurilma.nomi}}</td>
-                    <td>{{i.ishchi.ism}}</td>
-                    <td>{{i.berilgan_sanasi}}</td>
-                    <td>{{i.qaytish_sanasi}}</td>
-                    <td><a href="{% url 'shartnoma_download' i.pk %}"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                                <path
-                                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                <path
-                                    d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
-                            </svg></a></td>
-                    <td><a href="{% url 'edit_prokot' i.pk %}"><svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                width="24" height="24">
-                                <path d="M12 20h9" stroke="#000" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M16.5 3.5l4 4-12 12H4.5V13.5l12-12z" stroke="#000" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg></a></td>
-                    <td><a href="{% url 'delete_prokot' i.pk%}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
-                            </svg></a></td>
+            <tbody class="divide-y divide-gray-200">
+                {% for i in shartnomalar %}
+                <tr class="hover:bg-gray-50 transition-all duration-300 hover:shadow-md">
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.mijoz.ism }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.qurilma.nomi|slice:":15" }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.ishchi.ism }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.berilgan_sanasi }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ i.qaytish_sanasi }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center justify-center space-x-4">
+                            <a href="{% url 'shartnoma_download' i.pk %}" class="group px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold rounded-xl shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center justify-center space-x-4">
+                            <a href="{% url 'edit_prokot' i.pk %}" class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-300 transform hover:scale-110 hover:rotate-12">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                            </a>
+                            <a href="{% url 'delete_prokot' i.pk %}" class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-all duration-300 transform hover:scale-110 hover:-rotate-12">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </td>
+
                 </tr>
-                {%endfor%}
+                {% endfor %}
             </tbody>
         </table>
-    
+    </div>
 
+ 
 
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const berilganSanasi = document.getElementById('id_berilgan_sanasi');
-            const qaytishSanasi = document.getElementById('id_qaytish_sanasi');
-            const kunlarSoni = document.getElementById('id_kunlar_soni');
-            const kunlikNarxi = document.getElementById('id_kunlik_narxi');
-            const umumiyNarx = document.getElementById('id_umumiy_narx');
-            const miqdori = document.getElementById('id_miqdori');
-            const avans = document.getElementById('id_xizmat_narxi');
-
-            function calculateDays() {
-                const startDate = new Date(berilganSanasi.value);
-                const endDate = new Date(qaytishSanasi.value);
-                const timeDifference = endDate - startDate;
-                const daysDifference = timeDifference / (1000 * 3600 * 24);
-                if (!isNaN(daysDifference)) {
-                    kunlarSoni.value = daysDifference;
-                    calculateTotal();
-                }
-            }
-
-            function calculateTotal() {
-                const dailyPrice = parseFloat(kunlikNarxi.value) || 0;
-                const days = parseFloat(kunlarSoni.value) || 0;
-                const quantity = parseFloat(miqdori.value) || 0;
-                const total = (dailyPrice * days * quantity) + parseFloat(avans.value || 0);
-                umumiyNarx.value = total.toFixed(2);
-            }
-
-            berilganSanasi.addEventListener('change', calculateDays);
-            qaytishSanasi.addEventListener('change', calculateDays);
-            kunlikNarxi.addEventListener('input', calculateTotal);
-            miqdori.addEventListener('input', calculateTotal);
-            avans.addEventListener('input', calculateTotal);
-        });
-    </script>
-    
-
-    {%endblock content%}
-</body>
-
-</html>
+</div>
+{% endblock content %}

@@ -1,121 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'home.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-center mb-6">Formani tahrirlash</h2>
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+        
+        <div class="space-y-2">
+            <label for="id_mijoz" class="block font-medium text-gray-700">Mijoz</label>
+            {{ form.mijoz }}
+        </div>
+        
+        <div class="space-y-2">
+            <label for="id_qurilma" class="block font-medium text-gray-700">Uskuna</label>
+            {{ form.qurilma }}
+        </div>
+        
+        <div class="space-y-2">
+            <label for="id_berilgan_sanasi" class="block font-medium text-gray-700">Berilgan Sana</label>
+            {{ form.berilgan_sanasi }}
+        </div>
+        
+        <div class="space-y-2">
+            <label for="id_qaytish_sanasi" class="block font-medium text-gray-700">Qaytish Sana</label>
+            {{ form.qaytish_sanasi }}
+        </div>
+        
+        <div class="space-y-2">
+            <label for="id_kunlar_soni" class="block font-medium text-gray-700">Kunlar soni</label>
+            {{ form.kunlar_soni }}
+        </div>
+        
+        <div class="space-y-2">
+            <label for="id_kunlik_narxi" class="block font-medium text-gray-700">Kunlik Narx</label>
+            {{ form.kunlik_narxi }}
+        </div>
+        
+        <div class="space-y-2">
+            <label for="id_umumiy_narx" class="block font-medium text-gray-700">Umumiy Narx</label>
+            {{ form.umumiy_narx }}
+        </div>
 
-        .form-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-container label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .form-container input[type="text"],
-        .form-container select,
-        .form-container input[type="file"] {
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .form-container button {
-            padding: 10px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .form-container button:hover {
-            background-color: #0056b3;
-        }
-
-        .form-container a {
-            color: #007BFF;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .form-container a:hover {
-            color: #0056b3;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="form-container" id="form">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Сохранять</button>
-        </form>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const berilganSanasi = document.getElementById('id_berilgan_sanasi');
-            const qaytishSanasi = document.getElementById('id_qaytish_sanasi');
-            const kunlarSoni = document.getElementById('id_kunlar_soni');
-            const kunlikNarxi = document.getElementById('id_kunlik_narxi');
-            const umumiyNarx = document.getElementById('id_umumiy_narx');
-            const miqdori = document.getElementById('id_miqdori');
-            const avans = document.getElementById('id_xizmat_narxi');
-
-            function calculateDays() {
-                const startDate = new Date(berilganSanasi.value);
-                const endDate = new Date(qaytishSanasi.value);
-                const timeDifference = endDate - startDate;
-                const daysDifference = timeDifference / (1000 * 3600 * 24);
-                if (!isNaN(daysDifference)) {
-                    kunlarSoni.value = daysDifference;
-                    calculateTotal();
-                }
-            }
-
-            function calculateTotal() {
-                const dailyPrice = parseFloat(kunlikNarxi.value) || 0;
-                const days = parseFloat(kunlarSoni.value) || 0;
-                const quantity = parseFloat(miqdori.value) || 0;
-                const total = (dailyPrice * days * quantity) + parseFloat(avans.value || 0);
-                umumiyNarx.value = total.toFixed(2);
-            }
-
-            berilganSanasi.addEventListener('change', calculateDays);
-            qaytishSanasi.addEventListener('change', calculateDays);
-            kunlikNarxi.addEventListener('input', calculateTotal);
-            miqdori.addEventListener('input', calculateTotal);
-            avans.addEventListener('input', calculateTotal);
-        });
-    </script>
-
-</body>
-
-</html>
+        <div class="space-y-2">
+            <label for="id_miqdori" class="block font-medium text-gray-700">Miqdori</label>
+            {{ form.miqdori }}
+        </div>
+        
+        <div class="space-y-2">
+            <label for="id_avans" class="block font-medium text-gray-700">Avans</label>
+            {{ form.avans }}
+        </div>
+        
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Saqlash</button>
+    </form>
+</div>
+{% endblock %}

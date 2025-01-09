@@ -7,6 +7,7 @@ urlpatterns = [
     path('', LoginView.as_view(), name='login'),
     path('home/',HomeView.as_view(),name='home'),
     path('logout/',LogoutView.as_view(),name='logout'),
+    path('edit_profile/<int:pk>/', EditProfileView.as_view(), name='edit_profile'),
     path('mijoz/',MijozView.as_view(),name='mijoz'),
     path('mijozadd/',MijozAddView.as_view(),name='mijozadd'),
     path('mijoz/<int:pk>/edit/', MijozUpdateView.as_view(), name='edit_mijoz'),
